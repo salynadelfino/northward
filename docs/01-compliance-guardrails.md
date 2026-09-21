@@ -9,23 +9,17 @@ items below changed within the last 14 months.
 
 ---
 
-## 1. Registered healthcare professions. Never care work.
+## 1. Nurses only
 
-Overseas recruitment into care worker and senior care worker roles (SOC 6135,
-6136) closed on **22 July 2025**, and the skill threshold for sponsored work
-rose to RQF 6 (degree). There is no compliant overseas care-worker pipeline
-from India.
+Overseas recruitment into care worker and senior care worker roles closed on
+**22 July 2025**, and the skill threshold for sponsored work rose to RQF 6
+(degree). Registered nurses (SOC 2237, Health & Care Worker route) remain
+eligible, and nurses are the only profession Northward places.
 
-Registered healthcare professions remain eligible: nurses (NMC), doctors (GMC),
-and allied health professions regulated by the HCPC — physiotherapists,
-radiographers, biomedical scientists, operating department practitioners,
-occupational therapists and others.
-
-**Structural consequence:** the site addresses registered healthcare
-professionals. It has no care-work page, guide or SEO. One FAQ answer covers
-care work, and only to say the overseas route is closed and why. Eligibility is
-always framed as depending on profession, qualification and the rules in force
-— never asserted.
+**Structural consequence:** the site addresses qualified nurses. No care work,
+no doctors, no allied health. One FAQ answer says plainly that other
+professions are not covered, and that keeping the scope narrow is what lets
+the site write properly about the NMC route.
 
 ## 2. India is green-listed. Most of the surrounding audience is not.
 
@@ -62,17 +56,22 @@ referral.
 - Every guide carries the standing disclaimer in the footer.
 - Whoever answers the inbox is briefed on this before the site goes live.
 
-## 4. Candidates are never charged
+## 4. Nobody is ever charged — and we do not talk about it
 
-Section 6 of the Employment Agencies Act 1973 prohibits charging a work-seeker a
-fee for finding them work. Sponsors may not recoup sponsorship costs from
+Section 6 of the Employment Agencies Act 1973 prohibits charging a work-seeker
+a fee for finding them work. Sponsors may not recoup sponsorship costs from
 workers.
 
 **Structural consequence:** there is no pricing page, no checkout, no paid
-course, no "premium" tier, and no payment surface of any kind in this repo.
-This is also the site's sharpest differentiator against the incumbents — see
-`02-gnf-teardown.md`. It appears as one plain factual line on the form and in
-the FAQ, and is not built into a campaign.
+course and no payment surface of any kind in this repo. That is a constraint
+on the model.
+
+It is **not** a message. As of this revision the site says nothing about fees,
+nothing about being free to join, and nothing about it being unlawful to charge
+— all of that was removed. Leading with price makes price the subject and makes
+the brand sound defensive. The site leads with education and with live roles.
+"Get the free guide" describes the guide and is the only permitted use of the
+word.
 
 ## 5. Nothing that sounds like a guarantee
 
@@ -93,7 +92,7 @@ That is a statement about access, not outcomes.
 
 ## 6. Data protection, from day one
 
-The site collects names, contact details, professional histories and CVs from overseas nationals. Before
+The site collects names, contact details, nursing histories and CVs from overseas nationals. Before
 the form goes live:
 
 - ICO registration complete

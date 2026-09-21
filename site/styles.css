@@ -1,19 +1,21 @@
 /* ============================================================
    Northward — site styles
    Two faces: Archivo (headings) · Public Sans (body). No serif.
-   Ground is white; --paper and --pine are the alternating bands.
-   Amber is reserved: one amber element per screen, and it is
-   always the primary action.
+   Ground is white; --paper (beige) and --pine are the alternating bands.
+   One hue, worked through its range: the primary action is the deepest,
+   most saturated green on the page, and nothing else competes with it.
    ============================================================ */
 
 :root{
-  --jade:#0F6F5C;
-  --jade-dark:#0B5748;
+  --jade:#0F6F5C;        /* primary brand green */
+  --jade-lift:#17876F;   /* gradient top on the primary action */
+  --jade-dark:#0B5748;   /* hover / pressed */
+  --jade-edge:#0C5F4F;   /* button border */
+  --mint:#6FC9AC;        /* accent on dark grounds */
   --pine:#0A3B33;
+  --pine-deep:#06241F;
   --mist:#E4F1ED;
   --mist-line:#CBE2DA;
-  --amber:#E8A23C;
-  --amber-dark:#C9831F;
   --paper:#F7F5F0;
   --white:#FFFFFF;
   --ink:#16201E;
@@ -74,11 +76,11 @@ section{padding-block:var(--section-y)}
   font-family:var(--head);font-size:12px;font-weight:600;letter-spacing:.15em;
   text-transform:uppercase;color:var(--jade);margin:0 0 16px;
 }
-.band-pine .eyebrow{color:var(--amber)}
+.band-pine .eyebrow{color:var(--mint)}
 
 h2{font-size:clamp(1.85rem,4.4vw,2.7rem)}
 h3{font-size:1.18rem;letter-spacing:-.016em}
-.lede{font-size:clamp(1.05rem,2.1vw,1.24rem);line-height:1.58;color:var(--ink-2);max-width:56ch}
+.lede{font-size:clamp(1.05rem,2.1vw,1.24rem);line-height:1.58;color:var(--ink-2);max-width:56ch;margin-top:16px}
 .band-pine .lede{color:#BCCEC9}
 
 /* ---------- buttons -------------------------------------- */
@@ -87,11 +89,19 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
   letter-spacing:-.01em;text-decoration:none;cursor:pointer;
   border:1.5px solid transparent;padding:14px 26px;border-radius:8px;text-align:center;
 }
-.btn-primary{background:var(--amber);color:#2A1903;border-color:var(--amber)}
-.btn-primary:hover{background:var(--amber-dark);border-color:var(--amber-dark);color:#fff}
-.btn-quiet{background:transparent;color:var(--pine);border-color:#C9D2CF}
+.btn-primary{
+  background:linear-gradient(180deg,var(--jade-lift),var(--jade));
+  color:#fff;border-color:var(--jade-edge);
+  box-shadow:0 1px 2px rgba(6,36,31,.16);
+}
+.btn-primary:hover{background:linear-gradient(180deg,var(--jade),var(--jade-dark));border-color:var(--pine)}
+.btn-quiet{background:transparent;color:var(--pine);border-color:#C4CFCB}
 .btn-quiet:hover{border-color:var(--jade);color:var(--jade)}
-.band-pine .btn-quiet{color:#fff;border-color:rgba(255,255,255,.4)}
+/* On the dark band the filled button inverts to light — still the solid
+   one, so the primary/secondary hierarchy reads the same everywhere. */
+.band-pine .btn-primary{background:var(--mist);color:var(--pine);border-color:var(--mist);box-shadow:none}
+.band-pine .btn-primary:hover{background:#fff;color:var(--pine-deep);border-color:#fff}
+.band-pine .btn-quiet{color:#fff;border-color:rgba(255,255,255,.38)}
 .band-pine .btn-quiet:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.08)}
 .btn-block{display:block;width:100%}
 .btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
@@ -121,22 +131,30 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
 @media(max-width:800px){.site-nav{gap:16px}.site-nav a:not(.btn){display:none}}
 
 /* ---------- hero ----------------------------------------- */
-/* Home hero is two-column: copy left, a real photograph right. Interior
-   heroes are centred — they have no media and left-aligning them leaves
-   half the page dead at desktop widths. */
-.hero-sub{text-align:center}
-.hero-sub .lede,.hero-sub h1{margin-inline:auto}
-.hero-sub .btn-row{justify-content:center}
+/* No photography in the hero. A faint field of contour arcs — latitude
+   lines curving north — sits behind centred text. Decorative only. */
+.hero,.hero-sub{text-align:center}
+.hero .lede,.hero-sub .lede,.hero h1,.hero-sub h1{margin-inline:auto}
+.hero .btn-row,.hero-sub .btn-row{justify-content:center}
 
-.hero{padding-block:clamp(44px,6.5vw,84px) clamp(44px,6vw,80px)}
-.hero .wrap{display:grid;gap:clamp(34px,5vw,60px);align-items:center;grid-template-columns:1fr}
-@media(min-width:920px){.hero .wrap{grid-template-columns:1.06fr .94fr}}
-.hero h1{font-size:clamp(2.2rem,5.2vw,3.5rem);max-width:15ch;letter-spacing:-.038em}
+.hero{position:relative;overflow:hidden;padding-block:clamp(60px,9vw,120px) clamp(52px,7vw,92px)}
+.hero .wrap{position:relative;z-index:1}
+.hero h1{font-size:clamp(2.3rem,5.9vw,3.9rem);max-width:17ch;letter-spacing:-.038em}
 .hero .lede{margin-top:22px}
+.hero-deco{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(74% 96% at 50% -18%, rgba(15,111,92,.11), transparent 64%),
+    radial-gradient(46% 62% at 86% 4%, rgba(30,158,130,.07), transparent 62%),
+    linear-gradient(180deg, rgba(228,241,237,.62) 0%, rgba(228,241,237,0) 78%);
+}
+.hero-deco svg{position:absolute;inset:0;width:100%;height:100%}
+.hero-deco circle{fill:none;stroke:var(--jade);stroke-width:1;opacity:.13}
 .hero .fineprint{margin:18px 0 0;font-size:14.5px;color:var(--ink-3)}
-.hero-sub{padding-block:clamp(42px,6vw,70px) clamp(34px,4.5vw,54px);border-bottom:1px solid var(--rule)}
+.hero-sub{position:relative;overflow:hidden;padding-block:clamp(46px,6.5vw,76px) clamp(36px,4.5vw,58px);border-bottom:1px solid var(--rule)}
+.hero-sub .wrap{position:relative;z-index:1}
 .hero-sub h1{font-size:clamp(1.95rem,4.8vw,3rem);max-width:21ch}
 .hero-sub .lede{margin-top:18px}
+.hero-sub + section{padding-top:clamp(38px,5vw,64px)}
 
 /* ---------- generic grid of cards ------------------------ */
 .grid{display:grid;gap:18px;margin-top:40px}
@@ -211,7 +229,7 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
 }
 .steps h3{margin-bottom:8px}
 .steps p{color:var(--ink-2);font-size:16px;margin:0}
-.band-pine .steps li::before{background:var(--amber);color:#2A1903}
+.band-pine .steps li::before{background:var(--mint);color:var(--pine-deep)}
 .band-pine .steps p{color:#BCCEC9}
 
 /* ---------- employer spotlight --------------------------- */
@@ -225,8 +243,8 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
 .quote.tbc blockquote{color:var(--ink-2)}
 .tbc-tag{
   align-self:flex-start;font-family:var(--head);font-size:10.5px;font-weight:600;
-  letter-spacing:.13em;text-transform:uppercase;color:var(--amber-dark);
-  background:#FBF0E2;border-radius:4px;padding:3px 8px;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--jade);
+  background:var(--mist);border-radius:4px;padding:3px 8px;
 }
 
 /* ---------- CTA band ------------------------------------- */
@@ -357,8 +375,8 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
 }
 .works h3{font-size:1.14rem;margin-bottom:8px}
 .works p{color:var(--ink-2);font-size:15.5px;margin:0}
-.band-pine .works li{border-top-color:var(--amber)}
-.band-pine .works .n{color:var(--amber)}
+.band-pine .works li{border-top-color:var(--mint)}
+.band-pine .works .n{color:var(--mint)}
 .band-pine .works p{color:#BCCEC9}
 
 /* ---------- pathway -------------------------------------- */
@@ -369,9 +387,12 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
 }
 .pathway li:last-child{border-bottom:1px solid var(--rule)}
 .pathway li::before{
-  content:counter(pw,decimal-leading-zero);grid-row:span 2;
+  content:counter(pw,decimal-leading-zero);grid-column:1;grid-row:1;
   font-family:var(--head);font-weight:700;font-size:15px;color:var(--jade);padding-top:3px;
 }
+/* Everything but the number lives in column two. Without this the source
+   line auto-places into the 44px counter column and wraps to one word a line. */
+.pathway h3,.pathway p,.pathway .src{grid-column:2}
 .pathway h3{font-size:1.12rem}
 .pathway p{margin:6px 0 0;color:var(--ink-2);font-size:16px;max-width:64ch}
 .pathway .src{
@@ -380,7 +401,8 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
 .pathway .src a{font-family:var(--head);font-weight:500}
 @media(max-width:560px){
   .pathway li{grid-template-columns:1fr}
-  .pathway li::before{grid-row:auto;margin-bottom:2px}
+  .pathway li::before{grid-column:1;grid-row:auto;margin-bottom:2px}
+  .pathway h3,.pathway p,.pathway .src{grid-column:1}
 }
 
 /* ---------- philosophy ----------------------------------- */
@@ -388,21 +410,7 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
 .tenet h3{font-size:1.06rem;margin-bottom:7px}
 .tenet p{margin:0;font-size:15.5px}
 
-/* ---------- opportunity cards ---------------------------- */
-.opps{display:grid;gap:16px;margin-top:36px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}
-.opp{
-  background:var(--white);border:1px solid var(--rule);border-radius:var(--r);
-  padding:26px;display:flex;flex-direction:column;gap:14px;
-}
-.opp-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
-.opp h3{font-size:1.16rem}
-.opp .posted{font-size:13.5px;color:var(--ink-3);white-space:nowrap}
-.opp dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:7px 16px;font-size:15px}
-.opp dt{font-family:var(--head);font-weight:500;color:var(--ink-3);font-size:13.5px;padding-top:1px}
-.opp dd{margin:0;color:var(--ink)}
-.opp .note{font-size:14px;color:var(--ink-3);margin:0;line-height:1.5}
-.opp.sample{border-style:dashed;border-color:var(--mist-line);background:var(--paper)}
-
+/* ---------- callout panel ------------------------------- */
 .emptystate{
   border:1px solid var(--rule);border-radius:var(--r);background:var(--paper);
   padding:clamp(28px,4vw,44px);margin-top:36px;max-width:64ch;
@@ -410,26 +418,6 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
 .emptystate h3{font-size:1.25rem;margin-bottom:10px}
 .emptystate p{color:var(--ink-2);font-size:16.5px}
 .emptystate :last-child{margin-bottom:0}
-
-/* ---------- resources hub -------------------------------- */
-.res{display:grid;gap:16px;margin-top:38px;grid-template-columns:repeat(auto-fit,minmax(272px,1fr))}
-.res-item{
-  border:1px solid var(--rule);border-radius:var(--r);padding:26px;background:var(--white);
-  display:flex;flex-direction:column;gap:9px;
-}
-.res-item .kind{
-  font-family:var(--head);font-size:10.5px;font-weight:600;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--jade);
-}
-.res-item.soon .kind{color:var(--ink-3)}
-.res-item.soon{background:var(--paper);border-style:dashed;border-color:var(--mist-line)}
-.res-item h3{font-size:1.08rem}
-.res-item p{color:var(--ink-2);font-size:15.5px;margin:0;flex:1}
-.topics{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:9px}
-.topics li{
-  border:1px solid var(--rule);border-radius:100px;padding:6px 15px;
-  font-size:14.5px;color:var(--ink-2);background:var(--white);
-}
 
 /* ---------- progressive register form -------------------- */
 .progress{display:flex;gap:8px;margin-bottom:30px;list-style:none;padding:0}
@@ -447,7 +435,7 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
 /* ---------- misc ----------------------------------------- */
 .split{display:grid;gap:clamp(28px,5vw,56px);align-items:start;grid-template-columns:1fr}
 @media(min-width:880px){.split{grid-template-columns:1fr .9fr}}
-.notready{border-left:3px solid var(--amber);padding-left:clamp(20px,3vw,32px);max-width:62ch}
+.notready{border-left:3px solid var(--jade);padding-left:clamp(20px,3vw,32px);max-width:62ch}
 .notready h2{margin-bottom:16px}
 .contact-list{list-style:none;margin:34px 0 0;padding:0;display:grid;gap:18px;max-width:52ch}
 .contact-list li{border-top:1px solid var(--rule);padding-top:18px}

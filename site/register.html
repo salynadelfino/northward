@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Join the Northward Register</title>
-<meta name="description" content="Tell Northward about your experience, qualifications and career goals. When a relevant UK opportunity comes up, we will be in touch. Free to join, no obligation to move.">
+<meta name="description" content="Tell Northward about your nursing qualification, your experience and where you want to work. When a live UK role suits your profile, we will be in touch.">
 <link rel="canonical" href="https://northward.co/register.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Join the Northward Register">
-<meta property="og:description" content="Tell Northward about your experience, qualifications and career goals. When a relevant UK opportunity comes up, we will be in touch. Free to join, no obligation to move.">
+<meta property="og:description" content="Tell Northward about your nursing qualification, your experience and where you want to work. When a live UK role suits your profile, we will be in touch.">
 <meta property="og:url" content="https://northward.co/register.html">
 <meta property="og:site_name" content="Northward">
 <meta name="robots" content="noindex"><!-- remove at launch -->
@@ -24,10 +24,9 @@
   <div class="wrap">
     <a class="logo" href="./"><svg width="26" height="26" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 1.8 L14 19.2 L4.9 26.3 Z" fill="#0F6F5C"/><path d="M14 1.8 L23.1 26.3 L14 19.2 Z" fill="#0A3B33"/></svg>Northward</a>
     <nav class="site-nav" aria-label="Primary">
-      <a href="opportunities.html">UK Careers</a>
       <a href="pathway.html">Your Pathway</a>
-      <a href="resources.html">Resources</a>
-      <a href="about.html">About</a>
+      <a href="guide.html">Free Guide</a>
+      <a href="faqs.html">FAQs</a>
       <a class="btn btn-quiet" href="register.html">Join the Register</a>
     </nav>
   </div>
@@ -36,10 +35,11 @@
 <main id="main">
 
 <section class="hero-sub">
+  <div class="hero-deco" aria-hidden="true"><svg viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><g><circle cx="600" cy="980" r="700"/><circle cx="600" cy="980" r="764"/><circle cx="600" cy="980" r="828"/><circle cx="600" cy="980" r="892"/><circle cx="600" cy="980" r="956"/><circle cx="600" cy="980" r="1020"/></g></svg></div>
   <div class="wrap">
     <p class="eyebrow">Join the Northward Register</p>
     <h1>Tell us where you are. Tell us where you want to go.</h1>
-    <p class="lede">Three short steps, about five minutes. The more we know about your profile, the better the match when something relevant comes up &mdash; and the less we bother you with things that are not.</p>
+    <p class="lede">Three short steps, about five minutes. The more we know about your profile, the better the match when a live role comes up &mdash; and the less we bother you with things that don&rsquo;t suit you.</p>
   </div>
 </section>
 
@@ -47,14 +47,12 @@
   <div class="wrap">
     <form class="form-card" id="register-form" novalidate>
       <p class="preview-note"><strong>Design preview.</strong> This form is not connected yet &mdash; nothing is sent or stored.</p>
-
       <ol class="progress" id="progress">
         <li aria-current="step">1 &middot; About you</li>
-        <li>2 &middot; Your profession</li>
+        <li>2 &middot; Your nursing</li>
         <li>3 &middot; UK readiness</li>
       </ol>
 
-      <!-- STEP 1 -->
       <div class="step-panel" data-step="1">
         <p class="step-count">Step 1 of 3</p>
         <p class="fieldset-head">About you</p>
@@ -72,7 +70,7 @@
           <input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="+91" required>
           <span class="hint">Including country code. This is how we usually get in touch.</span>
         </div>
-          <div class="field">
+          <div class="field wide">
           <label for="state">Where in India are you based? <span class="req">*</span></label>
           <select id="state" name="state" required>
             <option value="">Select&hellip;</option>
@@ -92,39 +90,25 @@
             <option>Outside India</option>
           </select>
         </div>
-          <div class="field">
-          <label for="profession">Your healthcare profession <span class="req">*</span></label>
-          <select id="profession" name="profession" required>
-            <option value="">Select&hellip;</option>
-            <option>Nurse</option>
-            <option>Doctor</option>
-            <option>Physiotherapist</option>
-            <option>Radiographer</option>
-            <option>Biomedical scientist</option>
-            <option>Operating department practitioner</option>
-            <option>Occupational therapist</option>
-            <option>Pharmacist</option>
-            <option>Dentist</option>
-            <option>Speech and language therapist</option>
-            <option>Other healthcare profession</option>
-            <option>Currently studying</option>
-          </select>
         </div>
-        </div>
-        <div class="step-nav">
-          <span></span>
-          <button class="btn btn-primary" type="button" data-next="2">Continue</button>
-        </div>
+        <div class="step-nav"><span></span><button class="btn btn-primary" type="button" data-next="2">Continue</button></div>
       </div>
 
-      <!-- STEP 2 -->
       <div class="step-panel" data-step="2" hidden>
         <p class="step-count">Step 2 of 3</p>
-        <p class="fieldset-head">Your qualifications and experience</p>
+        <p class="fieldset-head">Your nursing qualification and experience</p>
         <div class="field-grid">
-          <div class="field wide">
-          <label for="qualification">Highest relevant qualification <span class="req">*</span></label>
-          <input id="qualification" name="qualification" type="text" placeholder="e.g. BSc Nursing, MBBS, BPT" required>
+          <div class="field">
+          <label for="qualification">Nursing qualification <span class="req">*</span></label>
+          <select id="qualification" name="qualification" required>
+            <option value="">Select&hellip;</option>
+            <option>GNM</option>
+            <option>BSc Nursing</option>
+            <option>Post Basic BSc Nursing</option>
+            <option>MSc Nursing</option>
+            <option>Currently studying</option>
+            <option>Other</option>
+          </select>
         </div>
           <div class="field">
           <label for="institution">Institution</label>
@@ -136,7 +120,17 @@
           <span class="hint">Expected year is fine if you are still studying.</span>
         </div>
           <div class="field">
-          <label for="experience">Years of post-qualification experience <span class="req">*</span></label>
+          <label for="homereg">Indian Nursing Council / state registration <span class="req">*</span></label>
+          <select id="homereg" name="homereg" required>
+            <option value="">Select&hellip;</option>
+            <option>Registered</option>
+            <option>Applied</option>
+            <option>Not yet</option>
+            <option>Not applicable</option>
+          </select>
+        </div>
+          <div class="field">
+          <label for="experience">Post-qualification ward experience <span class="req">*</span></label>
           <select id="experience" name="experience" required>
             <option value="">Select&hellip;</option>
             <option>None yet</option>
@@ -148,10 +142,22 @@
           </select>
         </div>
           <div class="field">
-          <label for="speciality">Main speciality or clinical area</label>
-          <input id="speciality" name="speciality" type="text" placeholder="e.g. ICU, orthopaedics, paediatrics">
+          <label for="speciality">Main clinical area</label>
+          <select id="speciality" name="speciality">
+            <option value="">Select&hellip;</option>
+            <option>Medical-surgical</option>
+            <option>ICU / critical care</option>
+            <option>Emergency</option>
+            <option>Theatre</option>
+            <option>Paediatrics</option>
+            <option>Maternity</option>
+            <option>Oncology</option>
+            <option>Elderly care</option>
+            <option>Mental health</option>
+            <option>Other</option>
+          </select>
         </div>
-          <div class="field">
+          <div class="field wide">
           <label for="employer">Current employer type</label>
           <select id="employer" name="employer">
             <option value="">Select&hellip;</option>
@@ -163,24 +169,10 @@
             <option>Still studying</option>
           </select>
         </div>
-          <div class="field">
-          <label for="homereg">Registration with your Indian council <span class="req">*</span></label>
-          <select id="homereg" name="homereg" required>
-            <option value="">Select&hellip;</option>
-            <option>Registered</option>
-            <option>Applied</option>
-            <option>Not yet</option>
-            <option>Not applicable</option>
-          </select>
         </div>
-        </div>
-        <div class="step-nav">
-          <button class="btn btn-quiet" type="button" data-prev="1">Back</button>
-          <button class="btn btn-primary" type="button" data-next="3">Continue</button>
-        </div>
+        <div class="step-nav"><button class="btn btn-quiet" type="button" data-prev="1">Back</button><button class="btn btn-primary" type="button" data-next="3">Continue</button></div>
       </div>
 
-      <!-- STEP 3 -->
       <div class="step-panel" data-step="3" hidden>
         <p class="step-count">Step 3 of 3</p>
         <p class="fieldset-head">Where you are with the UK</p>
@@ -189,10 +181,10 @@
           <label for="stage">How would you describe your stage? <span class="req">*</span></label>
           <select id="stage" name="stage" required>
             <option value="">Select&hellip;</option>
-            <option>Ready to explore opportunities now</option>
-            <option>Still preparing &mdash; working towards the requirements</option>
+            <option>Ready now &mdash; registration and English sorted, or nearly</option>
+            <option>Preparing &mdash; working through the requirements</option>
             <option>Just exploring &mdash; early days</option>
-            <option>Not ready yet, but want to stay informed</option>
+            <option>Later &mdash; not yet, but keep me informed</option>
           </select>
         </div>
           <div class="field">
@@ -204,25 +196,23 @@
             <option>IELTS achieved</option>
             <option>OET achieved</option>
             <option>Taken, did not meet the requirement</option>
-            <option>Exempt or not sure</option>
           </select>
         </div>
           <div class="field wide">
           <label for="scores">Your scores, if achieved</label>
           <input id="scores" name="scores" type="text" placeholder="e.g. OET B in all four">
-          <span class="hint">Requirements are usually assessed per component, so tell us each one.</span>
+          <span class="hint">Requirements are assessed per component, so tell us each one rather than only the overall.</span>
         </div>
           <div class="field">
-          <label for="ukreg">UK registration progress <span class="req">*</span></label>
-          <select id="ukreg" name="ukreg" required>
+          <label for="nmc">NMC progress <span class="req">*</span></label>
+          <select id="nmc" name="nmc" required>
             <option value="">Select&hellip;</option>
             <option>Not started</option>
-            <option>Researching the requirements</option>
-            <option>Application started</option>
-            <option>Exam booked</option>
-            <option>Exam passed</option>
-            <option>Awaiting decision</option>
-            <option>Registered / hold a UK PIN or licence</option>
+            <option>Account created</option>
+            <option>CBT booked</option>
+            <option>CBT passed</option>
+            <option>Test of Competence invitation received</option>
+            <option>Other</option>
           </select>
         </div>
           <div class="field">
@@ -237,20 +227,19 @@
           </select>
         </div>
           <div class="field">
-          <label for="setting">Preferred healthcare setting</label>
+          <label for="setting">Preferred setting</label>
           <select id="setting" name="setting">
             <option value="">Select&hellip;</option>
             <option>NHS hospital</option>
             <option>Private hospital</option>
             <option>Care or nursing home</option>
-            <option>Community or primary care</option>
             <option>No strong preference</option>
           </select>
         </div>
-          <div class="field wide">
+          <div class="field">
           <label for="locations">Preferred UK locations</label>
           <input id="locations" name="locations" type="text" placeholder="e.g. London, the North West, anywhere">
-          <span class="hint">Optional, and not binding. It just helps us filter.</span>
+          <span class="hint">Optional and not binding. It just helps us filter.</span>
         </div>
           <div class="field wide">
             <label for="cv">Your CV</label>
@@ -258,23 +247,14 @@
             <span class="hint">Optional. You can send it later, and many people do.</span>
           </div>
         </div>
-
         <div class="consent">
-          <label>
-            <input type="checkbox" id="consent" name="consent" required>
-            <span>Add me to the Northward Register, and contact me about UK opportunities that match my profile. <span class="req">*</span></span>
-          </label>
-          <label>
-            <input type="checkbox" id="consent-updates" name="consent_updates">
-            <span>Also send me guides, resources and updates on the UK pathway. <em>(Optional)</em></span>
-          </label>
+          <label><input type="checkbox" id="consent" name="consent" required>
+            <span>Add me to the Northward Register, and contact me about UK roles that suit my profile. <span class="req">*</span></span></label>
+          <label><input type="checkbox" id="consent-updates" name="consent_updates">
+            <span>Also send me guides and updates on the UK route. <em>(Optional)</em></span></label>
           <p class="small">Your details are held by [legal entity name], trading as Northward, and kept for [retention period]. We share them with a UK employer only when you have told us you want to be introduced to a specific role. We do not sell your details or pass them to anyone else. You can ask us to remove them at any time and we will do it the same day.</p>
         </div>
-
-        <div class="step-nav">
-          <button class="btn btn-quiet" type="button" data-prev="2">Back</button>
-          <button class="btn btn-primary" type="submit">Join the Register</button>
-        </div>
+        <div class="step-nav"><button class="btn btn-quiet" type="button" data-prev="2">Back</button><button class="btn btn-primary" type="submit">Join the Register</button></div>
       </div>
     </form>
   </div>
@@ -286,9 +266,9 @@
     <h2>What actually happens next</h2>
     <ol class="works">
       <li><span class="n">01</span><h3>We confirm</h3><p>Straight away. If something on your profile needs clarifying, we ask once.</p></li>
-      <li><span class="n">02</span><h3>We keep you informed</h3><p>New guides, rule changes worth knowing about, and what employers are looking for.</p></li>
-      <li><span class="n">03</span><h3>We wait for the right thing</h3><p>There may be nothing matching for months. We will not invent something to keep you engaged.</p></li>
-      <li><span class="n">04</span><h3>We get in touch</h3><p>When a relevant opportunity comes up, directly &mdash; and it is entirely your call whether to take it further.</p></li>
+      <li><span class="n">02</span><h3>We keep you informed</h3><p>New guides, changes worth knowing about, and what employers are looking for.</p></li>
+      <li><span class="n">03</span><h3>We wait for the right thing</h3><p>There may be nothing suitable for months. We will not invent something to keep you engaged.</p></li>
+      <li><span class="n">04</span><h3>We get in touch</h3><p>When a live role suits you, directly &mdash; and it is entirely your call whether to take it further.</p></li>
     </ol>
   </div>
 </section>
@@ -299,7 +279,6 @@
   var form = document.getElementById('register-form');
   var panels = form.querySelectorAll('.step-panel');
   var marks = document.getElementById('progress').children;
-
   function show(n) {
     panels.forEach(function (p) { p.hidden = p.dataset.step !== String(n); });
     for (var i = 0; i < marks.length; i++) {
@@ -310,13 +289,10 @@
     }
     form.scrollIntoView({ block: 'start' });
   }
-
   form.addEventListener('click', function (e) {
     var b = e.target.closest('[data-next],[data-prev]');
-    if (!b) return;
-    show(Number(b.dataset.next || b.dataset.prev));
+    if (b) show(Number(b.dataset.next || b.dataset.prev));
   });
-
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var n = form.querySelector('.preview-note');
@@ -331,18 +307,15 @@
     <div class="foot-top">
       <a class="logo" href="./"><svg width="26" height="26" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 1.8 L14 19.2 L4.9 26.3 Z" fill="#0F6F5C"/><path d="M14 1.8 L23.1 26.3 L14 19.2 Z" fill="#E4F1ED"/></svg>Northward</a>
       <nav aria-label="Footer">
-        <a href="opportunities.html">UK Careers</a>
         <a href="pathway.html">Your Pathway</a>
-        <a href="resources.html">Resources</a>
-        <a href="guide.html">Free guide</a>
+        <a href="guide.html">Free Guide</a>
         <a href="faqs.html">FAQs</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
         <a href="register.html">Join the Register</a>
+        <a href="mailto:hello@northward.co">hello@northward.co</a>
       </nav>
     </div>
     <div class="disclaimer">
-      <p>Northward publishes general information about UK healthcare registration and UK immigration rules. It is not immigration advice and must not be relied on as advice about your own circumstances. For advice on your position, speak to an adviser regulated by the Immigration Advice Authority.</p>
+      <p>Northward publishes general information about NMC registration and UK immigration rules. It is not immigration advice and must not be relied on as advice about your own circumstances. For advice on your position, speak to an adviser regulated by the Immigration Advice Authority.</p>
     </div>
   </div>
 </footer>

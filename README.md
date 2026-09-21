@@ -1,8 +1,8 @@
 # Northward — website
 
-Northward is a career network connecting Indian healthcare professionals —
-nurses, doctors and allied health professionals — with opportunities to build
-their careers in the UK.
+Northward is a career network for nurses: it helps qualified nurses in India
+understand the UK route, and connects them with UK employers who have live
+roles.
 
 The site publishes practical guidance on the UK pathway and invites people to
 join the **Northward Register**: a professional profile we hold, so we can get
@@ -23,7 +23,7 @@ never named on it.
 | `docs/02-gnf-teardown.md` | Global Nurse Force structure, and what we take / drop / change. |
 | `docs/03-site-structure.md` | Sitemap, page-by-page section specs, build order. |
 | `docs/04-content-rules.md` | Voice, banned phrases, CTA rules, the patience rule, placeholders. |
-| `site/*.html` | The nine pages. Static, no build step. |
+| `site/*.html` | The five pages. Static, no build step. |
 | `site/styles.css` | Brand tokens (colour, type, spacing) + page styles. |
 
 ## Running the page locally
@@ -36,8 +36,9 @@ cd site && python3 -m http.server 8000
 
 ## Scope
 
-Nine pages and two conversion mechanisms: the free guide (three fields) and the
-Northward Register (a three-step professional profile). What is deliberately
+Five pages and two conversion mechanisms: the free guide (three fields) and
+the Northward Register (a three-step nursing profile). There is no job board —
+roles reach nurses on the Register directly. What is deliberately
 not built — and why — is in `docs/03-site-structure.md`.
 
 Both forms are inert: they say so on the page rather than silently appearing to
@@ -51,9 +52,11 @@ Three things constrain every change to this repo. They are not style preferences
    no scarcity of any kind.
 2. **No individual immigration advice.** General information, and a link to the
    official source. Never "in your situation…".
-3. **Nobody is ever charged.** Nothing on this site takes a payment.
-4. **No invented people.** No fake testimonials, success stories or team members.
-5. **CTC is never named.** Northward stands on its own.
+3. **Nurses only**, and no job board.
+4. **Never discuss fees** — not ours, not the principle. It makes the brand
+   sound defensive. Lead with education and live roles.
+5. **No invented people.** No fake testimonials, success stories or team members.
+6. **CTC is never named.** Northward stands on its own.
 
 The full list, with the reasoning and the legislation, is in
 `docs/01-compliance-guardrails.md`.

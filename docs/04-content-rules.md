@@ -16,8 +16,7 @@ If it is the latter, rewrite it.
 Intelligent · warm · modern · trustworthy · practical · ambitious ·
 Indian-aware · straightforward · human.
 
-Write like a knowledgeable person talking to an ambitious Indian healthcare
-professional. Short sentences. Be specific. Say what things actually mean.
+Write like a knowledgeable person talking to an ambitious Indian nurse. Short sentences. Be specific. Say what things actually mean.
 Avoid unnecessary adjectives. British-English spelling.
 
 **Not:** corporate · overly polished · American · cheesy · inspirational for
@@ -38,7 +37,12 @@ start your journey · a brighter future
 
 Also banned, because they describe the internal model rather than the
 proposition: **lead generation · database · funnel · leads · candidates as
-inventory.** People are professionals, and the thing they join is the Register.
+inventory.** People are nurses, and the thing they join is the Register.
+
+And banned because it makes the brand sound defensive: **any discussion of
+fees, of the site being free, or of it being unlawful to charge for work.**
+The only permitted use of "free" is "the free guide", where it describes the
+guide. See `01-compliance-guardrails.md` §4.
 
 Unless a phrase genuinely adds meaning, remove it.
 
@@ -73,6 +77,17 @@ considered · countdowns · deadlines · any scarcity device.
 This is a compliance position (`01-compliance-guardrails.md` §5) and a
 strategic one — we want people who are eighteen months out — and it is also
 simply true.
+
+## Nurses only
+
+Northward places nurses. Not doctors, not allied health, not care workers.
+Copy says "nurses", never "healthcare professionals" — the second is vaguer
+and it is not what we do. The narrow scope is a strength: it is what lets the
+site write specifically about the NMC route, the CBT and the OSCE instead of
+generically about everything.
+
+There is also no job board. Roles reach nurses on the Register directly.
+Never write copy that implies vacancies are browsable here.
 
 ## Do not oversell the UK
 
@@ -127,16 +142,12 @@ joining the Register.
 Search the square brackets. All must be resolved before launch.
 
 - `[legal entity name]` and `[retention period]` — consent blocks on both forms
-- `[WhatsApp business number]` — contact page
-- The "Who we are" block on About — real names, or leave it empty. Do not
-  invent people.
-- The `.media--empty` photography slots — each states what belongs there
 - `https://northward.co` in canonical and Open Graph tags
-- `<meta name="robots" content="noindex">` on all nine pages
+- `<meta name="robots" content="noindex">` on all five pages
 
 ## Accuracy
 
 Everything factual must be checked before launch, and re-checked quarterly:
-the pathway stages, the July 2025 closure of overseas care-worker recruitment,
-the current English requirements, and every figure in the guide. Where a rule
+the eight pathway stages, the current NMC and Home Office English
+requirements, and anything stated in the guide. Where a rule
 has moved recently, link the source rather than paraphrasing it.
