@@ -1,8 +1,8 @@
 # 03 — Site structure
 
-Northward's information architecture, in three tiers. Tier 1 is built in this
-repo. Tiers 2 and 3 are specified here so that nothing built now has to be
-rebuilt later — but they are deliberately not started.
+Northward's information architecture. Everything described here is built in
+this repo; what is deliberately left out is listed below, with the reasoning,
+so nothing gets quietly added back.
 
 The organising idea, one line:
 
@@ -14,81 +14,76 @@ The organising idea, one line:
 
 ## Sitemap
 
+Five pages. Each has one job, and no page does two.
+
 ```
-TIER 1 — build now (week 1)
-/                             Home / landing page          ← site/index.html
-/thanks                       Post-download confirmation
-/privacy                      Privacy notice               ← blocking, legal
-/cookies                      Cookie notice
-
-TIER 2 — month 1–3, as the guides ship
-/guides                       The library (index)
-  /guides/route-handbook        The UK Nursing Route Handbook
-  /guides/cost-sheet            The Complete Cost Sheet
-  /guides/document-checklist    NMC Document Checklist
-  /guides/ielts-or-oet          IELTS vs OET Decision Guide
-  /guides/osce                  The OSCE Guide
-  /guides/cv-template           UK Nursing CV Template
-  /guides/first-90-days         Your First 90 Days in the UK
-/route                        The six steps — hub
-  /route/english                English: B2, and why it changed
-  /route/cbt                    CBT
-  /route/test-of-competence     NMC application & ToC invitation
-  /route/osce                   OSCE
-  /route/visa                   Health & Care Worker visa (information only)
-  /route/pin                    PIN and your first ward
-/pay                          What a Band 5 nurse actually earns
-/register                     Full registration form (standalone)
-/about                        Who we are
-/faqs                         Full FAQ
-
-TIER 3 — month 3+, only once Tier 2 is earning
-/am-i-ready                   Eligibility checker (gate the result, not the quiz)
-/tools/salary-calculator      Salary & cost-of-living calculator
-/roles                        Who hires international nurses in the UK
-/stories                      Placed nurses, on the record, with consent
-/blog                         Indexed editorial, seeded from the best guides
-
-NOT BUILT — see docs/02-gnf-teardown.md
-  Job board · individual vacancy pages · country pages other than the UK
-  Paid courses or services · pricing · checkout · live chat · enquiry form
-  Employer landing page · corporate careers
+index.html          Home — what Northward is and what it does
+how-we-help.html    The route, who it is for, and what happens after you register
+guide.html          The handbook, and the 4-field download form
+register.html       The 18-field registration form
+faqs.html           Cost, the route, and what we do with your details
 ```
+
+| Page | Its one job |
+|---|---|
+| **Home** | Answer "who are these people and what do they do" in under a minute, and offer the guidebook. |
+| **How we help** | Prove competence (the route) and set expectations (we are patient, not urgent). Ends in the register. |
+| **Free guidebook** | Convert a reader into a contactable person, for four details. |
+| **Join the register** | Convert a contactable person into a matchable candidate record. |
+| **FAQs** | Catch the objection, the long-tail search, and the question we must answer honestly (cost, guarantees, care work). |
+
+### Deliberately not built
+
+Job board · individual vacancy pages · destination pages for other countries ·
+paid courses, pricing or checkout · live chat · an open enquiry form ·
+an employer landing page · a guide library index · a blog (not yet).
+
+Reasoning for the first six is in `02-gnf-teardown.md`. The library and the blog
+are deferred, not rejected — see "Build order".
 
 ---
 
-## The home page, section by section
+## Home page, section by section
 
-Full copy is in `04-home-copy.md`; this is the structural spec and the reasoning
-for the order. It departs from the playbook §13 ordering in one place — the
-guide library moves above the route timeline — for the reason given at §3.
+Five sections. The count is the point: the previous version had eleven and read
+as a document rather than a site.
 
-| # | Section | Job it does | Notes |
-|---|---|---|---|
-| 1 | **Hero** | Say what this is in one line, and offer the one thing worth clicking | One primary CTA only (*Get the free Route Handbook*). Register is a quiet secondary link, not a competing button. |
-| 2 | **Trust strip** | Replace GNF's volume claims with checkable facts | Free always · written from current NMC and GOV.UK rules · last reviewed date · we never charge candidates. Four short facts, no numbers we cannot evidence. |
-| 3 | **Free guides** | The reason the page exists | Grid of covers. Each opens the **four-field** download form. Placed above the route because this is what converts and what people return for — the playbook flags the same swap. |
-| 4 | **The route** | Prove competence faster than any claim could | Six steps as a horizontal timeline with realistic durations. The most valuable single block on the page; on mobile it stacks to a vertical list and must stay legible. |
-| 5 | **What changed** | Urgency without manufacturing any | The 8 January 2026 B2 change, and July 2025 closures. Links to the English guide. This is the section that produces registration spikes. |
-| 6 | **Costs & pay** | Answer the question nobody else answers | Two honest figures and a link into the cost sheet and pay guide. Monospaced numerals — figures set like a document read as true. |
-| 7 | **Who this is for** | Self-qualification | Four candidate types as short bullets: final-year student, recent graduate, experienced nurse, already mid-NMC. Improves lead quality before a single field is filled. |
-| 8 | **Why register / How it works** | Convert the reader who is ready now | Four reasons + four steps (register → we check → you're on the register → we introduce you when a role matches). |
-| 9 | **Register form** | The conversion surface | Embedded on the page, never a link out. **Consent block above the submit button, visible without scrolling past it.** |
-| 10 | **FAQ** | Catch the objection and the long-tail search | Six questions. Two of them are *Do you charge?* (no) and *Do you guarantee a job?* (no). |
-| 11 | **Footer** | The legal layer | Privacy, cookies, retention period, removal address, ICO number, entity name, regulated-advice disclaimer. |
-
-### Two forms, deliberately different sizes
-
-| | Download form | Registration form |
+| # | Section | What it does |
 |---|---|---|
-| Where | Behind every guide cover (§3) | Section 9, and `/register` at Tier 2 |
-| Fields | **4** — name, email, WhatsApp, stage | **18** — playbook §09 schema |
-| Asks for | Nothing that needs justifying | Qualification, NMC stage, English status, experience, CV |
-| Why | Every field beyond four costs completions, and at this point we have given them nothing yet | By now they have had a 20-page handbook and six days of useful email; the ask is earned |
+| 1 | **Hero** | One line on what this is, then two actions — download the guidebook (primary), join the register (secondary). Centred; there is no photography to anchor a right-hand column. |
+| 2 | **What we do** | Three cards: we teach the route · we connect nurses with employers · we stay with you. This is the "About Us" the home page exists to be. |
+| 3 | **The guidebook** | One asset, given real weight — cover, what is inside, one button. |
+| 4 | **Who we work with** | Employer spotlight. Two quote slots, currently unfilled and visibly marked as such. |
+| 5 | **CTA band** | Join the register / download the guidebook. |
 
-The bridge between them is the seven-day email sequence, not a bigger form.
-Target conversion download → full registration is 15–30%. **If it comes in
-under 15%, the day-7 email is the problem, not the guide.**
+Removed from the home page in this revision, and why, is in
+`04-content-rules.md` § "What moved, and why it must not move back".
+
+---
+
+## How we help, section by section
+
+| # | Section | What it does |
+|---|---|---|
+| 1 | **Hero** | Frames the two halves: we teach for free, and we match patiently. |
+| 2 | **Who this is for** | Four nurse types, one line each. Self-qualification before any form. |
+| 3 | **The route** | Six steps with realistic durations and a sentence on each. The proof-of-competence block. |
+| 4 | **After you register** | Three steps carrying the patient-matching message. |
+| 5 | **CTA band** | Join the register. |
+
+---
+
+## Two forms, deliberately different sizes
+
+| | Guidebook form | Registration form |
+|---|---|---|
+| Page | `guide.html` | `register.html` |
+| Fields | **4** — name, email, mobile, stage | **18** — playbook §09 schema |
+| Means | An expression of interest | A candidate record |
+| Consent | Mailing list only, and says so | Holding details for role matching |
+
+Both consent blocks sit above the submit button and are visible without
+scrolling past it. Both state that downloading is not the same as registering.
 
 ---
 
@@ -114,11 +109,15 @@ nobody browsing, downloading or reading encounters it.
 
 Deliberately boring, because none of this is where the value is.
 
-- **Tier 1:** static HTML + one CSS file. No framework, no build step, no
-  JavaScript beyond form handling and the FAQ disclosure. Hosts anywhere.
-- **Fonts:** Google Fonts — Newsreader (display), Public Sans (body), IBM Plex
-  Mono (figures). All free, all available inside Canva so Salyna's assets match
-  the site exactly.
+- Static HTML, one CSS file, five pages. No framework, no build step, and no
+  JavaScript beyond the inert-form notice. Hosts anywhere.
+- **Fonts:** two faces, no serif — **Archivo** (headings, 500/600/700) and
+  **Public Sans** (body). Both on Google Fonts and both in Canva, so Salyna's
+  assets match the site. Figures use `font-variant-numeric: tabular-nums`
+  rather than a third face.
+- **Mark:** a solid two-tone north needle, jade over pine. No outline, no
+  container, no gradient. It sits at 26px in the header and must stay legible
+  as a 16px favicon — test it there before any change.
 - **Forms:** post to the register directly (Airtable / SharePoint list — decision
   with Aditya). No third-party form embed that drops its own cookies before
   consent.
@@ -140,31 +139,45 @@ Deliberately boring, because none of this is where the value is.
 
 1. Solicitor review of the consent wording, the disclaimer and the funnel, for
    the regulated-advice line (guardrail §3)
-2. ICO registration + privacy notice published
+2. ICO registration, and a privacy notice published somewhere the consent block
+   can point at
 3. Domain, SPF/DKIM/DMARC
-4. Register schema agreed with Aditya, and the form tested end to end **on a
+4. Register schema agreed with Aditya, and both forms tested end to end **on a
    real phone**
+5. The Route Handbook itself written — the site currently offers a document
+   that does not exist
 
-**Week 1** — Tier 1: landing page, both forms, the Route Handbook and the Cost
-Sheet, the seven-day sequence, `/privacy`, `/cookies`, `/thanks`.
+**Week 1** — the five pages, both forms wired up, the handbook, and the
+follow-up email sequence.
 
-**Weeks 2–4** — nothing new on the site. Content, outreach and the first
-hundred candidates. The temptation to spend week three on `/about` is the
-failure mode the playbook's "can come later" list exists to prevent.
+**Weeks 2–4** — nothing new on the site. Content, outreach, and the first
+hundred candidates. Spending week three adding pages is the failure mode the
+playbook's "can come later" list exists to prevent.
 
-**Month 2–3** — Tier 2, one guide page at a time as each guide ships. `/route`
-and its six children go up together, because a half-built route hub is worse
-than none.
+**Month 2 onward** — in this order, and only as each earns its place:
 
-**Month 3+** — Tier 3, and only once Tier 2 is producing search traffic.
+1. **Employer quotes** into the spotlight, once two employers have given
+   written permission. This is the highest-value single change on the site.
+2. **A second and third guide**, which is when `/guide` becomes a library index
+   rather than one page.
+3. **Route step pages** — `/route/english`, `/route/cbt`, `/route/osce` and so
+   on. This is the search-traffic play, and it is worth doing properly or not
+   at all: a half-built route hub is worse than none.
+4. **A blog**, seeded from whichever guides perform.
 
 ### Open items
 
-- [ ] **Open globalnurseforce.com on a phone** and check section order and form
-      fields against `02-gnf-teardown.md` — it was reconstructed from indexed
-      pages, not visited.
+- [ ] **Open migrately.ai and globalnurseforce.com on a phone** and check this
+      build against both — neither was reachable from the build environment, so
+      the structural notes are second-hand. See the addendum in
+      `02-gnf-teardown.md`.
+- [ ] Collect and get written sign-off on the two employer quotes (Evolve,
+      Devon, plus one more)
 - [ ] Confirm `northward.co` / `.co.uk` and the four social handles are free
-- [ ] Decide the employer-enquiry question in `02-gnf-teardown.md`
-      (recommendation: out of scope, one footer line)
-- [ ] Agree the retention period so it can be stated on the form
+- [ ] Agree the retention period so it can be stated on both forms
 - [ ] Agree who is named as the sender on candidate email
+- [ ] Decide where the privacy notice lives, given the footer links were
+      removed — the consent blocks still have to point somewhere (guardrail §6)
+- [ ] Remove `<meta name="robots" content="noindex">` from all five pages at
+      launch, and swap the `https://northward.co` placeholder in the canonical
+      and Open Graph tags

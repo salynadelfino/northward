@@ -7,7 +7,7 @@ changes.
 > Their site was not directly reachable from this environment (egress blocked),
 > so the structure below is reconstructed from indexed pages and search
 > metadata. It is accurate on *which pages exist and how they are grouped* —
-> the layer this document is about. Before the Tier 2 build, someone should
+> the layer this document is about. Before the next revision, someone should
 > open the site on a phone and check the section order and form fields page by
 > page. Flagged again in `03-site-structure.md`.
 
@@ -119,19 +119,43 @@ whole proposition ("we work with UK employers who hire nurses") rests on the
 same claim, made without the same proof.
 
 We cannot resolve it the way they do, because the employer relationship belongs
-to CTC and CTC must not appear anywhere above the footer rule. So for Tier 1:
+to CTC and CTC must not appear anywhere above the footer rule. So, for now:
 
 - **Do** carry the claim as a plain sentence, and evidence it in the only way
   available and honest — *what kinds of employer, in what regions, hiring for
   what bands* (a `/roles` page describing the market, not listing vacancies).
 - **Do not** build an employer landing page, name employers, or publish logos
   without written permission from each.
-- **Revisit at Tier 3**, once there are placed nurses who will go on record.
+- **Revisit** once there are placed nurses who will go on record.
   A real nurse saying where she works is better proof than a client logo wall,
   and it is proof that belongs to Northward rather than to CTC.
 
-**Decision needed from Charlie:** whether a small, unbranded "for employers"
-contact route is wanted at all, or whether employer-side enquiries are simply
-out of scope for this brand. Recommendation: out of scope, with a single footer
-line — anything more starts to reconstruct CTC's marketing inside Northward,
-which is the thing the two-brand structure exists to avoid.
+**Decided, September 2026:** no employer page. Instead, a small employer
+spotlight on the home page carrying two quotes from providers CTC has worked
+with (Evolve in Devon, plus one more). That is better proof than a logo wall
+and it belongs to Northward rather than to CTC — but it only works with real,
+signed-off words. The slots ship visibly empty rather than filled with
+plausible-sounding copy.
+
+---
+
+## Addendum — migrately.ai, September 2026
+
+Charlie flagged [migrately.ai](https://migrately.ai/) as the structural model to
+follow: simple, slick, modern, and markedly less word-heavy than what we had.
+
+**I could not open it** — the domain is blocked by this environment's egress
+proxy, same as Global Nurse Force. The revision was built from Charlie's
+description rather than from the site, so the principles below are his, not
+observed:
+
+- Few pages, each with one job
+- Few sections per page, and short ones
+- Home page reads as "about us" — what we do, who we help — not as a pitch
+- Forms live on their own pages, never inline on the home page
+- FAQ is its own page
+
+**Worth checking against the real site** before the next revision: their section
+rhythm and vertical spacing, how they handle the primary CTA repeat, and whether
+they carry social proof above or below the fold. If any of that differs from
+what we have built, it is a cheap change now and an expensive one later.

@@ -49,7 +49,7 @@ referral.
   cannot be staffed or controlled, and it is the fastest route to giving
   regulated advice by accident.
 - **No "check my case" / "assess my eligibility" form** that returns a personal
-  opinion. The eligibility checker (Tier 2) returns *which published stage you
+  opinion. If an eligibility checker is ever built, it returns *which published stage you
   are at and what the published next step is* — never "in your situation you
   should apply under…".
 - Every guide carries the standing disclaimer in the footer.
@@ -76,7 +76,7 @@ placement-count claim the business cannot evidence.
 Nurse Force leads with *20,000+ nurses placed · 250+ hospitals*; Northward
 cannot make an equivalent claim and should not try. The trust strip is built
 from **checkable facts instead of outcome claims** — free, always; written from
-the current rules; last reviewed on a stated date. See `04-home-copy.md` §2.
+the current rules; last reviewed on a stated date, on every page.
 
 The sentence that is permitted, and converts better anyway:
 > We work with UK employers who hire nurses, and our registered members hear
