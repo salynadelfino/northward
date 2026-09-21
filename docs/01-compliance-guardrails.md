@@ -9,16 +9,23 @@ items below changed within the last 14 months.
 
 ---
 
-## 1. Nursing only. Never care.
+## 1. Registered healthcare professions. Never care work.
 
 Overseas recruitment into care worker and senior care worker roles (SOC 6135,
-6136) closed on **22 July 2025**, and the Skilled Worker skill threshold rose to
-RQF 6 (degree). There is no compliant overseas care-worker pipeline from India.
+6136) closed on **22 July 2025**, and the skill threshold for sponsored work
+rose to RQF 6 (degree). There is no compliant overseas care-worker pipeline
+from India.
 
-**Structural consequence:** the site has no care-work page, no care-work guide,
-no care-work SEO. Registered nurse (SOC 2237, Health & Care Worker route) is the
-entire proposition. One page — the FAQ — addresses care work, and only to say it
-is closed and why.
+Registered healthcare professions remain eligible: nurses (NMC), doctors (GMC),
+and allied health professions regulated by the HCPC — physiotherapists,
+radiographers, biomedical scientists, operating department practitioners,
+occupational therapists and others.
+
+**Structural consequence:** the site addresses registered healthcare
+professionals. It has no care-work page, guide or SEO. One FAQ answer covers
+care work, and only to say the overseas route is closed and why. Eligibility is
+always framed as depending on profession, qualification and the rules in force
+— never asserted.
 
 ## 2. India is green-listed. Most of the surrounding audience is not.
 
@@ -86,7 +93,7 @@ That is a statement about access, not outcomes.
 
 ## 6. Data protection, from day one
 
-The site collects names, contact details and CVs from overseas nationals. Before
+The site collects names, contact details, professional histories and CVs from overseas nationals. Before
 the form goes live:
 
 - ICO registration complete

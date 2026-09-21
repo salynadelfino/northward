@@ -1,183 +1,178 @@
 # 03 — Site structure
 
-Northward's information architecture. Everything described here is built in
-this repo; what is deliberately left out is listed below, with the reasoning,
-so nothing gets quietly added back.
+Northward is a **career network** connecting Indian healthcare professionals with
+opportunities to build their careers in the UK. The site is how candidates find
+it, learn from it, and join it.
 
-The organising idea, one line:
+The proposition, in one line:
 
-> **A school with a register attached.** The guides earn the audience. The
-> register is what the audience stays for. Everything on the site is one or the
-> other, and anything that is neither does not get built.
+> Tell us where you are. Tell us where you want to go. We'll let you know when
+> the right opportunity comes up.
+
+Northward is not an immigration consultancy, a recruitment agency, a visa
+company or a job board, and nothing on the site should read as any of those.
+Internally the site is candidate acquisition; **that vocabulary never appears
+on it.** No "lead", no "funnel", no "database".
 
 ---
 
 ## Sitemap
 
-Five pages. Each has one job, and no page does two.
+```
+index.html          Home — the proposition, the register, the guide, the pathway
+opportunities.html  UK Careers — how opportunities work, and any that are live
+pathway.html        Your Pathway — the nine stages, with official sources
+resources.html      UK Career Hub — the guide, the pathway, FAQs, what's coming
+guide.html          The free guide, and the short download form
+register.html       Join the Northward Register — three-step profile
+about.html          Why Northward exists and what it believes
+faqs.html           What we are, cost, the pathway, the Register
+contact.html        Email, WhatsApp, and what we cannot advise on
+```
 
-```
-index.html          Home — what Northward is and what it does
-how-we-help.html    The route, who it is for, and what happens after you register
-guide.html          The handbook, and the 4-field download form
-register.html       The 18-field registration form
-faqs.html           Cost, the route, and what we do with your details
-```
+Primary navigation is `UK Careers · Your Pathway · Resources · About`, with
+**Join the Register** as a button in the header on every page. Contact sits in
+the footer.
 
 | Page | Its one job |
 |---|---|
-| **Home** | Answer "who are these people and what do they do" in under a minute, and offer the guidebook. |
-| **How we help** | Prove competence (the route) and set expectations (we are patient, not urgent). Ends in the register. |
-| **Free guidebook** | Convert a reader into a contactable person, for four details. |
-| **Join the register** | Convert a contactable person into a matchable candidate record. |
-| **FAQs** | Catch the objection, the long-tail search, and the question we must answer honestly (cost, guarantees, care work). |
-
-### Deliberately not built
-
-Job board · individual vacancy pages · destination pages for other countries ·
-paid courses, pricing or checkout · live chat · an open enquiry form ·
-an employer landing page · a guide library index · a blog (not yet).
-
-Reasoning for the first six is in `02-gnf-teardown.md`. The library and the blog
-are deferred, not rejected — see "Build order".
+| **Home** | Answer "who are these people, what do they do, and does this apply to me" — then offer the Register or the guide. |
+| **UK Careers** | Show how opportunities work without implying anyone can apply or that sponsorship is guaranteed. Currently an honest empty state. |
+| **Your Pathway** | Prove competence, set expectations, and point at the official authority for everything that changes. |
+| **Resources** | Be the reason someone comes back, and the reason search sends them. |
+| **Free guide** | Convert a reader into a contactable person for three details. |
+| **Join the Register** | Convert a contactable person into a matchable professional profile. |
+| **About** | Say why this exists, in a human voice, without a mission statement. |
+| **FAQs** | Answer cost, guarantees, the closed care-worker route, and data. |
+| **Contact** | Be reachable, and be clear about the advice line. |
 
 ---
 
-## Home page, section by section
+## Home page flow
 
-Five sections. The count is the point: the previous version had eleven and read
-as a document rather than a site.
+Ten sections, in this order. Each earns its place; none repeats another.
 
 | # | Section | What it does |
 |---|---|---|
-| 1 | **Hero** | One line on what this is, then two actions — download the guidebook (primary), join the register (secondary). Centred; there is no photography to anchor a right-hand column. |
-| 2 | **What we do** | Three cards: we teach the route · we connect nurses with employers · we stay with you. This is the "About Us" the home page exists to be. |
-| 3 | **The guidebook** | One asset, given real weight — cover, what is inside, one button. |
-| 4 | **Who we work with** | Employer spotlight. Two quote slots, currently unfilled and visibly marked as such. |
-| 5 | **CTA band** | Join the register / download the guidebook. |
+| 1 | **Hero** | *Your UK career could be closer than you think.* Register (primary) and guide (secondary), plus the no-obligation line. Two columns — copy left, photography right. |
+| 2 | **Who this is for** | Names the professions. Says explicitly that people who are years away belong here too. |
+| 3 | **Where are you now?** | Four self-identifying stages, each routing somewhere different. Ready → opportunities · Preparing → pathway · Exploring → guide · Informed → register. |
+| 4 | **How Northward works** | Join → Stay connected → Get matched → Take the next step. Four lines, no elaboration. |
+| 5 | **The pathway** | Nine stages in brief, with a link to the full page and the "we are not the authority" line. |
+| 6 | **Not ready yet?** | The long-term register proposition. Strategically the most important section on the page. |
+| 7 | **UK Career Opportunities** | Honest empty state, and why opportunities reach the Register first. |
+| 8 | **No false promises** | Four tenets, plus the line that says the UK is not automatically the right move. |
+| 9 | **UK Career Hub** | Three resources, and the route into the content engine. |
+| 10 | **Final CTA** | Register (primary), guide (secondary). |
 
-Removed from the home page in this revision, and why, is in
-`04-content-rules.md` § "What moved, and why it must not move back".
+### What was removed in this revision, and why
+
+| Removed | Why |
+|---|---|
+| "Three things, done well" icon cards | Generic, icon-heavy, and said nothing the flow does not now say better. |
+| The employer testimonial spotlight | Replaced by the opportunities section and the transparency tenets. Real quotes go back in when they exist — the markup is in `.quote` and unused. |
+| "How we help" as a page | Became **Your Pathway**, which is what it actually was. |
+| Nursing-only framing | The audience is Indian healthcare professionals: nurses, doctors, allied health. Care work stays closed and is answered honestly in the FAQ. |
+| Cost and salary figures on the home page | They belong in the guide. Leading with money makes money the subject. |
 
 ---
 
-## How we help, section by section
+## The two conversion mechanisms
 
-| # | Section | What it does |
+| | Free guide (`guide.html`) | The Register (`register.html`) |
 |---|---|---|
-| 1 | **Hero** | Frames the two halves: we teach for free, and we match patiently. |
-| 2 | **Who this is for** | Four nurse types, one line each. Self-qualification before any form. |
-| 3 | **The route** | Six steps with realistic durations and a sentence on each. The proof-of-competence block. |
-| 4 | **After you register** | Three steps carrying the patient-matching message. |
-| 5 | **CTA band** | Join the register. |
+| Fields | 3 required, 1 optional | ~20 across three steps |
+| Means | An expression of interest | A professional profile |
+| Asks | Name, email, profession, WhatsApp | Location, qualification, experience, speciality, employer type, English, UK registration progress, timeframe, preferences, CV |
+| Consent | Mailing list only | Register, and contact about matching roles |
 
----
+Both say explicitly that **downloading the guide does not join the Register.**
+People who believe they have already joined are the worst outcome of getting
+this wrong.
 
-## Two forms, deliberately different sizes
-
-| | Guidebook form | Registration form |
-|---|---|---|
-| Page | `guide.html` | `register.html` |
-| Fields | **4** — name, email, mobile, stage | **18** — playbook §09 schema |
-| Means | An expression of interest | A candidate record |
-| Consent | Mailing list only, and says so | Holding details for role matching |
-
-Both consent blocks sit above the submit button and are visible without
-scrolling past it. Both state that downloading is not the same as registering.
+The Register uses progressive disclosure — three steps, each a real category
+rather than an arbitrary split — so it reads as building a career profile
+rather than filling in a marketing form. Step 1 alone is enough to contact
+someone, so a partial completion is still worth having once the form is wired
+up. **Persist step 1 on "Continue", not only on final submit.**
 
 ---
 
 ## Where the entity name appears
 
 Under Article 13 UK GDPR, a person handing over their details must be told who
-the controller is and who their data will be shared with, at the moment they
-hand it over. So the legal entity is named in exactly two places:
+the controller is. The legal entity is therefore named in exactly two places:
+the consent block on each of the two forms, and the privacy notice.
 
-1. The privacy notice at `/privacy`
-2. One line inside the consent block on each form
-
-Nowhere else. Not in the header, the hero, the about page, the guides, the email
-sender name, the footer tagline or any social bio. Candidate-facing email comes
-from `hello@northward.co`, never a CTC address.
-
-This is a footer link and one line of small print. It is not the brand, and
-nobody browsing, downloading or reading encounters it.
+Nowhere else. Not in the header, the hero, About, the guide, the email sender
+name or any social bio. **CTC is never named anywhere on this site.** Candidate
+email comes from `hello@northward.co`.
 
 ---
 
 ## Technical shape
 
-Deliberately boring, because none of this is where the value is.
-
-- Static HTML, one CSS file, five pages. No framework, no build step, and no
-  JavaScript beyond the inert-form notice. Hosts anywhere.
-- **Fonts:** two faces, no serif — **Archivo** (headings, 500/600/700) and
-  **Public Sans** (body). Both on Google Fonts and both in Canva, so Salyna's
-  assets match the site. Figures use `font-variant-numeric: tabular-nums`
-  rather than a third face.
+- Static HTML, one CSS file, nine pages. No framework, no build step. The only
+  JavaScript is the register stepper and the inert-form notices.
+- **Fonts:** Archivo (headings) and Public Sans (body). No serif. Figures use
+  `font-variant-numeric: tabular-nums` rather than a third face.
 - **Mark:** a solid two-tone north needle, jade over pine. No outline, no
-  container, no gradient. It sits at 26px in the header and must stay legible
-  as a 16px favicon — test it there before any change.
-- **Forms:** post to the register directly (Airtable / SharePoint list — decision
-  with Aditya). No third-party form embed that drops its own cookies before
-  consent.
-- **Analytics:** privacy-first and cookieless, or none at all in month one.
-  Source tagging happens in the register via UTM captured into a hidden field,
-  which is the number that actually matters.
-- **Email:** SPF, DKIM and DMARC configured on the domain **before the first
-  send**. Skipping this puts the whole seven-day sequence in spam and produces a
-  confident, wrong conclusion that the guides do not work.
-- **Performance budget:** the audience is mobile-first on Indian networks.
-  Under 150KB for the landing page excluding fonts, no hero video, no carousel
-  library, images lazy-loaded and served at 2× at most.
+  container. Must stay legible at 16px.
+- **Photography:** `.media` slots are built and marked. Real photographs drop
+  straight in — Indian healthcare professionals, real working environments,
+  eye level, unposed. No stock handshakes, no nurses smiling at laptops.
+- **Mobile:** a significant share of this audience is mobile-only on Indian
+  networks. The Register button is in the header on every page and never
+  scrolls away. Budget is under 150KB per page excluding fonts.
+- **Forms** post to the register directly. No third-party embed that drops
+  cookies before consent.
+- **Email:** SPF, DKIM and DMARC before the first send.
+
+---
+
+## SEO
+
+The site is built to become the resource Indian healthcare professionals find
+when they search. Every page has a unique title, meta description, canonical
+and Open Graph tags; the home page carries Organization data and the FAQ page
+carries FAQPage data.
+
+The content engine is `resources.html`. Planned articles are listed there and
+map to real searches — NMC registration from India, CBT, OSCE, IELTS vs OET,
+UK nurse salary, GMC route, HCPC route, sponsorship. **Each becomes its own
+page at `/resources/<slug>`; do not let them accumulate as sections on one
+page.** Write to answer the question, not to rank for the phrase.
 
 ---
 
 ## Build order
 
-**Blocking before anything goes live** — these gate the launch, not the design:
+**Blocking before launch:**
 
-1. Solicitor review of the consent wording, the disclaimer and the funnel, for
-   the regulated-advice line (guardrail §3)
-2. ICO registration, and a privacy notice published somewhere the consent block
-   can point at
+1. Solicitor review of the consent wording, the disclaimer and the contact
+   page, for the regulated-advice line (guardrail §3)
+2. ICO registration, and a privacy notice for the consent blocks to point at
 3. Domain, SPF/DKIM/DMARC
-4. Register schema agreed with Aditya, and both forms tested end to end **on a
-   real phone**
-5. The Route Handbook itself written — the site currently offers a document
-   that does not exist
+4. Register schema agreed with Aditya; both forms tested end to end on a phone
+5. The guide itself written — the site currently offers a document that does
+   not exist
 
-**Week 1** — the five pages, both forms wired up, the handbook, and the
-follow-up email sequence.
+**Then, in order:**
 
-**Weeks 2–4** — nothing new on the site. Content, outreach, and the first
-hundred candidates. Spending week three adding pages is the failure mode the
-playbook's "can come later" list exists to prevent.
-
-**Month 2 onward** — in this order, and only as each earns its place:
-
-1. **Employer quotes** into the spotlight, once two employers have given
-   written permission. This is the highest-value single change on the site.
-2. **A second and third guide**, which is when `/guide` becomes a library index
-   rather than one page.
-3. **Route step pages** — `/route/english`, `/route/cbt`, `/route/osce` and so
-   on. This is the search-traffic play, and it is worth doing properly or not
-   at all: a half-built route hub is worse than none.
-4. **A blog**, seeded from whichever guides perform.
+1. Real photography into the `.media` slots
+2. The first three Career Hub articles
+3. Real team detail on About
+4. Genuine candidate stories, once they exist and consent is on file
+5. Live opportunities, when there are any
 
 ### Open items
 
-- [ ] **Open migrately.ai and globalnurseforce.com on a phone** and check this
-      build against both — neither was reachable from the build environment, so
-      the structural notes are second-hand. See the addendum in
-      `02-gnf-teardown.md`.
-- [ ] Collect and get written sign-off on the two employer quotes (Evolve,
-      Devon, plus one more)
-- [ ] Confirm `northward.co` / `.co.uk` and the four social handles are free
-- [ ] Agree the retention period so it can be stated on both forms
-- [ ] Agree who is named as the sender on candidate email
-- [ ] Decide where the privacy notice lives, given the footer links were
-      removed — the consent blocks still have to point somewhere (guardrail §6)
-- [ ] Remove `<meta name="robots" content="noindex">` from all five pages at
-      launch, and swap the `https://northward.co` placeholder in the canonical
-      and Open Graph tags
+- [ ] **Open migrately.ai and globalnurseforce.com on a phone** — neither was
+      reachable from the build environment, so the structural notes in
+      `02-gnf-teardown.md` are second-hand
+- [ ] WhatsApp business number for the contact page (currently a placeholder)
+- [ ] Confirm the domain and social handles are free
+- [ ] Agree the retention period, stated on both forms
+- [ ] Resolve `[legal entity name]` in both consent blocks
+- [ ] Remove `<meta name="robots" content="noindex">` from all nine pages and
+      swap the `https://northward.co` placeholder in the canonical and OG tags

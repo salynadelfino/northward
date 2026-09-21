@@ -1,98 +1,142 @@
-# 04 — Content and messaging rules
+# 04 — Voice and content rules
 
-Page copy now lives in the HTML. This document is the rules that govern it, so
-that anyone editing a page writes in the same voice and does not reintroduce
-something the structure deliberately removed.
+Copy lives in the HTML. This is what governs it.
+
+The test, applied to every sentence before it ships:
+
+> Does this sound like a real, credible Indian career brand — or does it sound
+> like AI wrote an overseas recruitment website?
+
+If it is the latter, rewrite it.
 
 ---
 
 ## Voice
 
-Plain, specific, warm, unhurried. Numbers and dates rather than adjectives.
-Teacherly without being condescending. Talks to a professional, not an
-applicant. British-English spelling; nursing vocabulary used correctly (GNM,
-BSc Nursing, staff nurse, CBT, Test of Competence, OSCE, PIN, Band 5).
+Intelligent · warm · modern · trustworthy · practical · ambitious ·
+Indian-aware · straightforward · human.
 
-Sentences are short. Sections are shorter than you think they need to be. If a
-paragraph can lose a clause, it loses the clause.
+Write like a knowledgeable person talking to an ambitious Indian healthcare
+professional. Short sentences. Be specific. Say what things actually mean.
+Avoid unnecessary adjectives. British-English spelling.
 
-## Banned
+**Not:** corporate · overly polished · American · cheesy · inspirational for
+its own sake · like an immigration consultancy · like an AI-generated
+recruitment website.
 
-guaranteed · 100% · limited places · act now · dream job · life-changing
-opportunity · unlock · hassle-free · seamless · we will get you a visa ·
-anything opening "In your situation…"
+## Banned outright
 
-## What moved, and why it must not move back
+Audit any new copy against this list.
 
-Four things were removed from the home page in the September 2026 revision.
-They were not removed for space.
+unlock your potential · dream career · brighter future · transform your future ·
+empowering healthcare professionals · seamless journey · end-to-end solutions ·
+trusted partner · your journey starts here · take the next step towards your
+dreams · global opportunities await · unlock a world of possibilities ·
+passionate about changing lives · your success is our success · tailored
+solutions · holistic support · comprehensive solutions · navigate your journey ·
+start your journey · a brighter future
 
-| Removed | Where it went | Why |
+Also banned, because they describe the internal model rather than the
+proposition: **lead generation · database · funnel · leads · candidates as
+inventory.** People are professionals, and the thing they join is the Register.
+
+Unless a phrase genuinely adds meaning, remove it.
+
+## Calls to action
+
+The primary CTA is **Join the Northward Register**, or "Join the Register"
+where the brand name is already on screen. Supporting line:
+
+> Tell us about your experience, qualifications and career goals. When a
+> relevant UK opportunity comes up, we'll be in touch.
+
+**Never use:** Apply Now · Submit Your CV · Get Started · Start Your Journey ·
+Contact Us (as a primary CTA).
+
+The secondary CTA is **Get the free guide**.
+
+The Register must feel valuable and professional — something a serious person
+joins, not somewhere details are collected.
+
+## The patience rule
+
+The most important tonal rule on the site. Everything about the Register says
+*we will tell you when the right thing comes up*, never *move now*.
+
+**Write:** "You don't have to be ready to move today." · "There may be nothing
+matching for months." · "We would rather know you early than find you late." ·
+"We will not invent something to keep you engaged."
+
+**Never:** roles filling fast · limited places · register today to be
+considered · countdowns · deadlines · any scarcity device.
+
+This is a compliance position (`01-compliance-guardrails.md` §5) and a
+strategic one — we want people who are eighteen months out — and it is also
+simply true.
+
+## Do not oversell the UK
+
+The UK is not an automatic upgrade. No exaggerated claims about salary,
+lifestyle, career progression, quality of life, immigration or family benefits.
+
+The line the site takes, and it appears on the home page and in the FAQs:
+
+> We help you understand the opportunity so you can decide whether it's right
+> for you.
+
+Saying plainly that the UK is the wrong move for some people buys more trust
+than any amount of enthusiasm.
+
+## Regulatory content
+
+Registration rules belong to the regulators. Immigration rules belong to the
+Home Office. Neither belongs to Northward.
+
+- State how the process **generally** works.
+- Link the official source for anything current or time-sensitive — NMC, GMC,
+  HCPC, GOV.UK.
+- Never present Northward as the legal or regulatory authority.
+- Never advise on an individual's position. Not on a page, not in an email,
+  not on WhatsApp.
+
+## Social proof
+
+**Do not invent testimonials, success stories or quotes.** Not as placeholder,
+not "just for the design".
+
+Until genuine ones exist, trust comes from: a transparent process, useful
+guides, honest FAQs, real team information, links to official sources, and an
+opportunities page that says "nothing live" rather than showing stale roles.
+
+The `.quote` component is built and unused. Real quotes drop into it once they
+exist and consent is on file.
+
+## The two forms
+
+| | Free guide | The Register |
 |---|---|---|
-| The facts / trust strip under the hero | Gone | It front-loaded defensiveness. The page now earns trust by being useful, not by arguing for itself. |
-| "Free, always" as a headline claim | FAQ, and one line beside each form | Leading with price makes price the subject. It is a fact about the service, not the proposition. |
-| The cost figures and pay figures | The guidebook, and the FAQ | Same reason. Money is what the guidebook is *for*; it is not what the brand is about. |
-| The guide library grid | One guidebook, with the rest named as in progress on `/guide` | Six covers where two were real read as padding. One strong asset beats a shelf of coming-soons. |
+| Fields | 3 required, 1 optional | ~20 over three steps |
+| Means | An expression of interest | A professional profile |
+| Tone | "Three details and it's yours" | "Tell us where you are" |
 
-## Messaging: the register is patient, not urgent
+The guide form must never grow. Both say explicitly that downloading is not
+joining the Register.
 
-The single most important tonal rule on the site. Everything about the register
-says *we will find the right role when it exists*, never *move now*.
+## Placeholders in the build
 
-**Write:** "We hold your details and come to you when a role fits." ·
-"There may be no matching role this month, or next. That is normal." ·
-"We would rather introduce you to one role that suits you than five that do not."
+Search the square brackets. All must be resolved before launch.
 
-**Never write:** "Roles are filling fast" · "Register today to be considered" ·
-"Limited vacancies" · anything with a countdown, a place count, or a deadline.
-
-This is a compliance position as much as a tonal one — see
-`01-compliance-guardrails.md` §5 — but it is also simply what is true, and the
-audience can tell.
-
-## The two forms are different on purpose
-
-| | Guidebook (`/guide`) | Register (`/register`) |
-|---|---|---|
-| Fields | 4 | 18 |
-| What it is | An expression of interest | A candidate record |
-| What we ask | Name, email, mobile, stage | Qualification, NMC progress, English, experience, readiness, CV |
-| What it earns us | Permission to come back to them | A record we can actually match against |
-
-The guidebook form must never grow. Every field beyond four costs completions,
-and at that point we have given the reader nothing yet. The bridge between the
-two is the follow-up sequence and the fact that the handbook was good — not a
-longer form.
-
-Both forms state plainly that downloading is not the same as registering. People
-who think they have already joined the register are the worst outcome of getting
-this wrong.
-
-## Placeholders currently in the pages
-
-These are visible in the build and must be resolved before launch. Search for
-the square brackets.
-
-- `[legal entity name]` — consent blocks on both forms
-- `[retention period]` — consent blocks on both forms
-- Employer spotlight on the home page — both quotes are marked
-  **Quote to be collected** and styled as unfilled. Evolve (Devon) is named
-  because CTC has worked with them; the words are not theirs yet.
-  **Do not publish either quote without written permission from the employer,
-  and do not write words on their behalf.**
-- `https://northward.co` in every canonical and Open Graph tag
-- `<meta name="robots" content="noindex">` is on every page. Remove it at launch.
+- `[legal entity name]` and `[retention period]` — consent blocks on both forms
+- `[WhatsApp business number]` — contact page
+- The "Who we are" block on About — real names, or leave it empty. Do not
+  invent people.
+- The `.media--empty` photography slots — each states what belongs there
+- `https://northward.co` in canonical and Open Graph tags
+- `<meta name="robots" content="noindex">` on all nine pages
 
 ## Accuracy
 
-Every factual claim on the site is checkable, and someone must check it before
-launch:
-
-- The six route durations
-- The 8 January 2026 B2 change, and that it is separate from the NMC's own
-  English requirement
-- The 22 July 2025 closure of overseas care worker recruitment
-- Any fee or salary figure that appears in the guidebook
-
-Each page carries the date its rules were last reviewed. Keep it honest — a
-stale date is better than a false fresh one, and both are worse than a review.
+Everything factual must be checked before launch, and re-checked quarterly:
+the pathway stages, the July 2025 closure of overseas care-worker recruitment,
+the current English requirements, and every figure in the guide. Where a rule
+has moved recently, link the source rather than paraphrasing it.
