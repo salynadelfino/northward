@@ -1,7 +1,7 @@
 # 02 — Global Nurse Force teardown
 
 Notes taken from Global Nurse Force (globalnurseforce.com), the clearest
-structural benchmark in this market, and what Northward takes, drops and
+structural benchmark in this market, and what Northward Care takes, drops and
 changes.
 
 > Their site was not directly reachable from this environment (egress blocked),
@@ -45,7 +45,7 @@ volume claims.
 
 **1. The regulator page as the SEO spine.**
 `/licensing/uk-nmc` is their strongest asset: it ranks, it answers a real
-query, and it is the page a nurse actually arrives on. Northward's equivalent
+query, and it is the page a nurse actually arrives on. Northward Care's equivalent
 is `/route` and its six step pages. This is the single best idea on their site
 and we should take it wholesale — one hub, one page per step, each answering
 the question a nurse types in.
@@ -85,14 +85,14 @@ We have a register, not a board. Reasons, in order:
   if roles are not public.
 
 **3. Paid exam preparation and career services.**
-GNF sells IELTS/OET prep, CV tailoring and interview training. Northward gives
+GNF sells IELTS/OET prep, CV tailoring and interview training. Northward Care gives
 all three away free. This is the sharpest differentiator we have and it is not
 a marketing choice — EAA 1973 s.6 makes charging work-seekers unlawful anyway
 (guardrail §4). *The thing our biggest competitor charges for, we publish.*
 
 **4. Volume trust claims.**
 "20,000+ nurses placed · 250+ hospitals" is the load-bearing trust device on
-their homepage. Northward has no equivalent number and inventing one is
+their homepage. Northward Care has no equivalent number and inventing one is
 misleading advertising. Replaced — see below.
 
 **5. `/corporate-careers`.** Not now.
@@ -128,12 +128,12 @@ to CTC and CTC must not appear anywhere above the footer rule. So, for now:
   without written permission from each.
 - **Revisit** once there are placed nurses who will go on record.
   A real nurse saying where she works is better proof than a client logo wall,
-  and it is proof that belongs to Northward rather than to CTC.
+  and it is proof that belongs to Northward Care rather than to CTC.
 
 **Decided, September 2026:** no employer page. Instead, a small employer
 spotlight on the home page carrying two quotes from providers CTC has worked
 with (Evolve in Devon, plus one more). That is better proof than a logo wall
-and it belongs to Northward rather than to CTC — but it only works with real,
+and it belongs to Northward Care rather than to CTC — but it only works with real,
 signed-off words. The slots ship visibly empty rather than filled with
 plausible-sounding copy.
 

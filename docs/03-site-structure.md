@@ -1,6 +1,6 @@
 # 03 — Site structure
 
-Northward is a **career network for nurses**: it helps qualified nurses in
+Northward Care is a **career network for nurses**: it helps qualified nurses in
 India understand the UK route, and connects them with UK employers who have
 live roles. The site is how nurses find it, learn from it, and join it.
 
@@ -9,7 +9,7 @@ The proposition, in one line:
 > Tell us where you are. Tell us where you want to go. We'll let you know when
 > the right opportunity comes up.
 
-Northward is not an immigration consultancy, a visa service or a job board,
+Northward Care is not an immigration consultancy, a visa service or a job board,
 and nothing on the site should read as any of those.
 Internally the site is candidate acquisition; **that vocabulary never appears
 on it.** No "lead", no "funnel", no "database".
@@ -18,64 +18,61 @@ on it.** No "lead", no "funnel", no "database".
 
 ## Sitemap
 
-Five pages. Nurses only.
+Six pages. Nurses only.
 
 ```
-index.html      Home — the proposition, the route in brief, the Register
-pathway.html    Your Pathway — the eight stages, with official sources
-guide.html      The free guide, and a three-field download form
-register.html   Join the Northward Register — three-step profile
+index.html      Home — the proposition, who it's for, the Register
+route.html      Your Route — the eight stages, with official sources
+guide.html      The free guide; submitting the form starts the download
+register.html   Join the Register — three-step profile
+about.html      Why we exist, who we are, how we work
 faqs.html       What we are, the route, the Register
 ```
 
-Navigation is `Your Pathway · Free Guide · FAQs`, with **Join the Register**
-as a button in the header on every page.
+Navigation is `Your Route · Free Guide · About · FAQs`, with **Join the
+Register** as a button in the header on every page.
 
 ### Deliberately not built
 
-**No job board.** Northward does not post vacancies. Roles reach nurses on the
-Register directly, which is the whole reason the Register exists — a public
-listings page would undercut it, and dead listings destroy the credibility the
-guides build.
+**No job board.** Northward Care does not post vacancies. Roles reach nurses on
+the Register directly, which is the whole reason the Register exists.
 
-Also not built: destination pages for other countries, other healthcare
-professions, pricing or checkout of any kind, live chat, an open enquiry form,
-a resources index (folded into the guide and the pathway), and a blog.
+Also not built: other countries, other healthcare professions, pricing or
+checkout, live chat, an open enquiry form, and a blog.
 
 | Page | Its one job |
 |---|---|
-| **Home** | Answer "who are these people, does this apply to me, and what do I do next" — then offer the Register or the guide. |
-| **Your Pathway** | Prove competence, set expectations, cite the NMC and GOV.UK for everything that changes. |
-| **Free guide** | Convert a reader into a contactable person for three details. |
+| **Home** | Answer "who are these people, does this apply to me, what do I do next" — then offer the Register or the guide. |
+| **Your Route** | Reassure, then prove competence. Cites the NMC and GOV.UK for everything that changes. |
+| **Free guide** | Convert a reader into a contactable person. The download fires on submit. |
 | **Register** | Convert a contactable person into a matchable nursing profile. |
-| **FAQs** | Answer guarantees, timelines, the OSCE, and what happens to their details. |
+| **About** | Why this exists, who we are, and how we work. Carries the tenets. |
+| **FAQs** | Guarantees, timelines, the OSCE, the advice line, and data. |
 
 ---
 
 ## Home page flow
 
-Seven sections.
+Six sections. Deliberately short — the detail lives on Your Route and About.
 
 | # | Section | What it does |
 |---|---|---|
-| 1 | **Hero** | *Your UK career could be closer than you think.* Centred, over a faint contour field. Register (filled) and guide (outlined). |
-| 2 | **Who this is for** | Qualified nurses who want to work in the UK. Full stop. Plus a short "what we are not". |
+| 1 | **Hero** | *Your UK career could be closer than you think.* Centred over a drifting contour field. Register (filled) and guide (outlined). No disclaimer line. |
+| 2 | **Who this is for** | Qualified nurses who want to work in the UK. Settings kept general — hospitals, nursing homes, community teams, specialist services. The "not a job board" point is woven into the copy, not boxed out. |
 | 3 | **Where are you on the UK route?** | Four stages: ready · preparing · exploring · later. Two route to the Register. |
-| 4 | **How Northward works** | Join → Stay connected → Get matched → Take the next step. |
-| 5 | **The route** | Six stages in brief, the "we are not the authority" line, link to the full pathway. |
-| 6 | **Not ready yet?** | The long-term Register proposition. Strategically the most important section. |
-| 7 | **No false promises** | Four tenets, plus the line saying the UK is not automatically the right move. |
-| 8 | **Final CTA** | Register (filled), guide (outlined). |
+| 4 | **How Northward Care works** | Join → Stay connected → Get matched → Take the next step. |
+| 5 | **Not ready yet?** | The long-term Register proposition. Strategically the most important section. |
+| 6 | **Final CTA** | Register (filled), guide (outlined). |
 
-### Removed in this revision
+### Removed from the home page in this revision
 
-| Removed | Why |
+| Removed | Where it went |
 |---|---|
-| Doctors and allied health professions | Northward places nurses. Narrowing back is what lets the site write properly about the NMC route. |
-| The opportunities / job board page | Not the model. Roles go to the Register. |
-| Resources, About and Contact pages | Overbuilt. Their content folded into home, the guide and the footer. Easy to restore. |
-| All cost and fee content, and the "unlawful to charge" argument | Defensive, and it made money the subject. The site leads with education and live roles. |
-| Hero photography | Replaced with a faint contour field behind centred text. |
+| The "No obligation to move" line under the hero buttons | Gone. It undercut the hero. |
+| The "What we are not" box | Folded into the copy as one clause. |
+| The route summary | Your Route owns it. The home page links there from the stage cards. |
+| "How we work" / the tenets | Moved to About. |
+| "We will also tell you when the UK is not the answer" | Cut. It still appears, softened, in the FAQ. |
 
 ---
 
@@ -83,18 +80,19 @@ Seven sections.
 
 Under Article 13 UK GDPR, a person handing over their details must be told who
 the controller is. The legal entity is therefore named in exactly two places:
-the consent block on each of the two forms, and the privacy notice.
+the consent block on the Register, the privacy paragraph on the guide form,
+and the privacy notice itself.
 
 Nowhere else. Not in the header, the hero, About, the guide, the email sender
 name or any social bio. **CTC is never named anywhere on this site.** Candidate
-email comes from `hello@northward.co`.
+email comes from `hello@northwardcare.com`.
 
 ---
 
 ## Technical shape
 
-- Static HTML, one CSS file, nine pages. No framework, no build step. The only
-  JavaScript is the register stepper and the inert-form notices.
+- Static HTML, one CSS file, one small JS file, six pages. No framework and
+  no build step.
 - **Fonts:** Archivo (headings) and Public Sans (body). No serif. Figures use
   `font-variant-numeric: tabular-nums` rather than a third face.
 - **Colour:** one hue worked through its range — jade `#0F6F5C`, pine `#0A3B33`,
@@ -104,8 +102,22 @@ email comes from `hello@northward.co`.
   it inverts to solid mist so the filled/outlined hierarchy reads the same
   everywhere.
 - **Hero:** no photography. A faint field of contour arcs — latitude lines
-  curving north — sits behind centred text, at 13% opacity over a soft jade
-  wash. Decorative, `aria-hidden`, and the only ornament on the site.
+  curving north — sits behind centred text at 13% opacity over a soft jade
+  wash, drifting over 52 seconds. Decorative, `aria-hidden`, the only ornament
+  on the site.
+- **Motion** lives in `site.js` and the motion block at the end of `styles.css`:
+  a page fade in and out between pages, a staggered hero entrance, scroll
+  reveal, and hover movement on buttons, cards, arrow links and nav items.
+
+  Three rules it must keep obeying:
+  1. **Nothing is ever permanently hidden.** Content is only hidden when the
+     `js` class is set *and* the viewer has not asked for reduced motion, and
+     `site.js` reveals everything unconditionally after 1.4s. Without
+     JavaScript the page renders complete.
+  2. **`prefers-reduced-motion` disables all of it** — the fade, the drift, the
+     reveal and every hover transform.
+  3. **Every page lands at the top.** `history.scrollRestoration` is set to
+     `manual`, so a back-navigation does not restore a mid-page scroll.
 - **Mark:** a solid two-tone north needle, jade over pine. No outline, no
   container. Must stay legible at 16px.
 - **Mobile:** most of this audience is mobile-only on Indian networks. The Register button is in the header on every page and never
@@ -159,4 +171,4 @@ question, not to rank for the phrase.
 - [ ] Agree the retention period, stated on both forms
 - [ ] Resolve `[legal entity name]` in both consent blocks
 - [ ] Remove `<meta name="robots" content="noindex">` from all five pages and
-      swap the `https://northward.co` placeholder in the canonical and OG tags
+      swap the `https://northwardcare.com` placeholder in the canonical and OG tags

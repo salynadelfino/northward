@@ -441,3 +441,85 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
 .contact-list li{border-top:1px solid var(--rule);padding-top:18px}
 .contact-list b{font-family:var(--head);display:block;font-size:15.5px;color:var(--pine);margin-bottom:3px}
 .contact-list p{margin:0;font-size:15.5px;color:var(--ink-2)}
+
+
+/* ============================================================
+   Motion
+   Content is hidden only when .js is set AND the viewer has not
+   asked for reduced motion. Every rule below has a reduced-motion
+   escape, and site.js reveals everything after 1.4s regardless.
+   ============================================================ */
+
+/* ---- page transition ------------------------------------- */
+body{animation:pageIn .5s cubic-bezier(.22,.61,.36,1) both}
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+html.leaving body{opacity:0;transition:opacity .22s ease}
+
+/* ---- hero entrance --------------------------------------- */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hero .eyebrow{animation:rise .7s .04s both}
+.hero h1{animation:rise .85s .12s both}
+.hero .lede{animation:rise .85s .21s both}
+.hero .btn-row{animation:rise .85s .3s both}
+.hero-sub .eyebrow{animation:rise .6s .04s both}
+.hero-sub h1{animation:rise .75s .1s both}
+.hero-sub .lede{animation:rise .75s .18s both}
+
+/* the contour field drifts almost imperceptibly */
+@keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(0,-16px,0) scale(1.04)}}
+.hero-deco svg{animation:drift 52s ease-in-out infinite alternate}
+
+/* ---- scroll reveal --------------------------------------- */
+.js .reveal{opacity:0;transform:translateY(17px)}
+.js .reveal.in{
+  opacity:1;transform:none;
+  transition:opacity .68s cubic-bezier(.22,.61,.36,1) var(--d,0s),
+             transform .68s cubic-bezier(.22,.61,.36,1) var(--d,0s);
+}
+
+/* ---- hover movement -------------------------------------- */
+.btn{transition:transform .18s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translateY(-1.5px);box-shadow:0 6px 18px -8px rgba(10,59,51,.45)}
+.btn:active{transform:translateY(0);box-shadow:none}
+.band-pine .btn:hover{box-shadow:0 6px 18px -8px rgba(0,0,0,.5)}
+
+.stage,.res-item{transition:transform .26s ease,border-color .26s ease,box-shadow .26s ease}
+.stage:hover,.res-item:hover{
+  transform:translateY(-3px);border-color:var(--mist-line);
+  box-shadow:0 14px 34px -22px rgba(10,59,51,.5);
+}
+
+.arrowlink .ar{display:inline-block;transition:transform .22s cubic-bezier(.22,.61,.36,1)}
+.arrowlink:hover .ar{transform:translateX(5px)}
+
+.site-nav a:not(.btn){position:relative}
+.site-nav a:not(.btn)::after{
+  content:"";position:absolute;left:0;right:0;bottom:-5px;height:1.5px;
+  background:var(--jade);transform:scaleX(0);transform-origin:left;
+  transition:transform .26s cubic-bezier(.22,.61,.36,1);
+}
+.site-nav a:not(.btn):hover::after,
+.site-nav a[aria-current="page"]::after{transform:scaleX(1)}
+
+.works li,.pathway li{transition:border-color .3s ease}
+.pathway li:hover{border-top-color:var(--mist-line)}
+.faq summary::after{transition:transform .26s cubic-bezier(.22,.61,.36,1),top .26s ease}
+.site-foot a{transition:color .18s ease}
+
+@media (prefers-reduced-motion:reduce){
+  body{animation:none}
+  html.leaving body{opacity:1;transition:none}
+  .hero .eyebrow,.hero h1,.hero .lede,.hero .btn-row,
+  .hero-sub .eyebrow,.hero-sub h1,.hero-sub .lede{animation:none}
+  .hero-deco svg{animation:none}
+  .js .reveal,.js .reveal.in{opacity:1;transform:none;transition:none}
+  .btn:hover,.stage:hover,.res-item:hover{transform:none}
+  .arrowlink:hover .ar{transform:none}
+  .site-nav a:not(.btn)::after{transition:none}
+}
+
+/* the wordmark is longer now — keep the header on one line on small phones */
+@media(max-width:480px){
+  .logo{font-size:1.14rem;gap:8px}
+  .site-nav .btn{padding:8px 14px;font-size:14px}
+}

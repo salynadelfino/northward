@@ -14,7 +14,7 @@ items below changed within the last 14 months.
 Overseas recruitment into care worker and senior care worker roles closed on
 **22 July 2025**, and the skill threshold for sponsored work rose to RQF 6
 (degree). Registered nurses (SOC 2237, Health & Care Worker route) remain
-eligible, and nurses are the only profession Northward places.
+eligible, and nurses are the only profession Northward Care places.
 
 **Structural consequence:** the site addresses qualified nurses. No care work,
 no doctors, no allied health. One FAQ answer says plainly that other
@@ -79,7 +79,7 @@ No "guaranteed UK job", no "100% visa success", no "only 20 places left", no
 placement-count claim the business cannot evidence.
 
 **Structural consequence:** the site has no vanity-metric trust strip. Global
-Nurse Force leads with *20,000+ nurses placed · 250+ hospitals*; Northward
+Nurse Force leads with *20,000+ nurses placed · 250+ hospitals*; Northward Care
 cannot make an equivalent claim and should not try. The trust strip is built
 from **checkable facts instead of outcome claims** — free, always; written from
 the current rules; last reviewed on a stated date, on every page.

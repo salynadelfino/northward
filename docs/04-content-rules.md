@@ -48,7 +48,7 @@ Unless a phrase genuinely adds meaning, remove it.
 
 ## Calls to action
 
-The primary CTA is **Join the Northward Register**, or "Join the Register"
+The primary CTA is **Join the Register**, or "Join the Register"
 where the brand name is already on screen. Supporting line:
 
 > Tell us about your experience, qualifications and career goals. When a
@@ -80,7 +80,7 @@ simply true.
 
 ## Nurses only
 
-Northward places nurses. Not doctors, not allied health, not care workers.
+Northward Care places nurses. Not doctors, not allied health, not care workers.
 Copy says "nurses", never "healthcare professionals" — the second is vaguer
 and it is not what we do. The narrow scope is a strength: it is what lets the
 site write specifically about the NMC route, the CBT and the OSCE instead of
@@ -105,12 +105,12 @@ than any amount of enthusiasm.
 ## Regulatory content
 
 Registration rules belong to the regulators. Immigration rules belong to the
-Home Office. Neither belongs to Northward.
+Home Office. Neither belongs to Northward Care.
 
 - State how the process **generally** works.
 - Link the official source for anything current or time-sensitive — NMC, GMC,
   HCPC, GOV.UK.
-- Never present Northward as the legal or regulatory authority.
+- Never present Northward Care as the legal or regulatory authority.
 - Never advise on an individual's position. Not on a page, not in an email,
   not on WhatsApp.
 
@@ -131,18 +131,26 @@ exist and consent is on file.
 | | Free guide | The Register |
 |---|---|---|
 | Fields | 3 required, 1 optional | ~20 over three steps |
-| Means | An expression of interest | A professional profile |
-| Tone | "Three details and it's yours" | "Tell us where you are" |
+| Means | An expression of interest | A nursing profile |
+| Tone | "Fill this in and it downloads" | "Tell us where you are" |
+| Consent | **No checkbox.** Submitting starts the download. | Explicit checkbox. |
 
 The guide form must never grow. Both say explicitly that downloading is not
 joining the Register.
+
+**On the missing checkbox:** the guide form now has no consent tickbox, by
+decision — the download is the transaction and a checkbox in front of it is
+friction. The privacy paragraph stays and must keep saying who holds the data,
+for how long, and that we will be in touch. Before launch, confirm with the
+solicitor which lawful basis covers the follow-up email, since consent is no
+longer being captured as a positive act. See `01-compliance-guardrails.md` §6.
 
 ## Placeholders in the build
 
 Search the square brackets. All must be resolved before launch.
 
 - `[legal entity name]` and `[retention period]` — consent blocks on both forms
-- `https://northward.co` in canonical and Open Graph tags
+- `https://northwardcare.com` in canonical and Open Graph tags
 - `<meta name="robots" content="noindex">` on all five pages
 
 ## Accuracy
