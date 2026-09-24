@@ -54,8 +54,15 @@ let cachedToken = null; // survives warm invocations
 async function accessToken() {
   if (cachedToken && cachedToken.expires > Date.now() + 60000) return cachedToken.value;
 
-  const b64 = (o) => Buffer.from(typeof o === 'string' ? o : JSON.stringify(o))
-    .toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  // Strings and objects only. A Buffer passed here would be JSON-stringified
+  // into '{"type":"Buffer","data":[...]}' rather than encoded from its bytes,
+  // which is how the signature silently became invalid. Sign with
+  // .sign(key, 'base64url') instead of routing the Buffer through here.
+  const b64 = (o) => {
+    if (Buffer.isBuffer(o)) throw new TypeError('b64() takes a string or an object, not a Buffer');
+    return Buffer.from(typeof o === 'string' ? o : JSON.stringify(o))
+      .toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  };
 
   const now = Math.floor(Date.now() / 1000);
   const head = b64({ alg: 'RS256', typ: 'JWT' });
@@ -66,7 +73,11 @@ async function accessToken() {
     exp: now + 3600,
     iat: now
   });
-  const sig = b64(crypto.createSign('RSA-SHA256').update(head + '.' + claim).sign(SA_KEY));
+  // sign() returns a Buffer. It must be base64url-encoded from its bytes —
+    // passing it through the JSON-based b64() helper encodes the string
+    // '{"type":"Buffer","data":[...]}' instead, which Google rejects as an
+    // invalid signature while every other part of the request looks correct.
+    const sig = crypto.createSign('RSA-SHA256').update(head + '.' + claim).sign(SA_KEY, 'base64url');
 
   const r = await fetch('https://oauth2.googleapis.com/token', {
     method: 'POST',
