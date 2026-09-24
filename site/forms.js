@@ -81,8 +81,14 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     }).then(function (r) {
-      return r.json().catch(function () { return {}; }).then(function (j) {
-        if (!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
+      return r.text().then(function (txt) {
+        var body = null;
+        try { body = JSON.parse(txt); } catch (err) {}
+        // Our function always answers JSON. Anything else — a 404 page, a
+        // dev server's 501, an artifact sandbox — means there is no function
+        // at this path, which is preview mode rather than a real failure.
+        if (!body) return { preview: !r.ok };
+        if (!r.ok) throw new Error(body.error || ('HTTP ' + r.status));
         return { preview: false };
       });
     });
@@ -114,11 +120,26 @@
         return opts.done(form, { preview: true, silent: true });
       }
 
+      // Start the download here, still inside the click that caused it —
+      // browsers allow a user-gesture download far more readily than one
+      // fired after an await, and the file must never depend on our logging.
+      if (opts.deliver) opts.deliver();
+
       var btn = form.querySelector('button[type=submit]');
       var label = btn ? btn.textContent : '';
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
-      send(opts.endpoint(), payload(form, opts.source))
+      var sent = send(opts.endpoint(), payload(form, opts.source));
+
+      if (opts.deliverAlways) {
+        // The guide is already on its way. A logging failure is ours, not
+        // the reader's, so show the panel either way and note it quietly.
+        sent.then(function (res) { opts.done(form, res); })
+            .catch(function () { opts.done(form, { preview: false, unsaved: true }); });
+        return;
+      }
+
+      sent
         .then(function (res) { opts.done(form, res); })
         .catch(function () {
           if (btn) { btn.disabled = false; btn.textContent = label; }
@@ -144,22 +165,33 @@
     d.scrollIntoView({ block: 'center', behavior: 'smooth' });
   }
 
-  /* ---- the guide: submit, then the download starts itself -------------- */
+  /* ---- the guide ------------------------------------------------------- */
   wire(document.getElementById('guide-form'), {
     source: 'guide',
+    deliverAlways: true,
     endpoint: function () { return CFG.endpoint; },
+    deliver: function () {
+      var file = CFG.guideFile;
+      if (!file) return;
+      var a = document.createElement('a');
+      a.href = file;
+      a.setAttribute('download', '');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    },
     done: function (form, res) {
       var file = CFG.guideFile;
-      if (file && !res.silent) {
-        var a = document.createElement('a');
-        a.href = file; a.download = '';
-        document.body.appendChild(a); a.click(); a.remove();
-      }
-      panel(form, 'Your guide is downloading.',
-        '<p>If it hasn&rsquo;t started, <a href="' + file + '" download>download it here</a>.</p>' +
-        '<p>Reading the guide will tell you how the journey works. It won&rsquo;t tell you when a role that suits you comes up &mdash; that&rsquo;s what the Register is for.</p>' +
-        '<p><a class="btn btn-primary" href="register.html">Join the Register</a></p>' +
-        (res.preview ? '<p class="previewline">Preview mode: no endpoint configured, so nothing was sent or stored.</p>' : ''));
+      panel(form, 'Your guide is on its way.',
+        '<p>The download should have started. If it hasn&rsquo;t, open it here &mdash; you can save it from your browser.</p>' +
+        '<p><a class="btn btn-primary" href="' + file + '" target="_blank" rel="noopener">Open the guide</a></p>' +
+        '<p>Reading it will tell you how the journey works. It won&rsquo;t tell you when a role that suits you comes up &mdash; that&rsquo;s what the Register is for.</p>' +
+        '<p><a class="arrowlink" href="register.html">Join the Register <span class="ar">&rarr;</span></a></p>' +
+        (res.unsaved
+          ? '<p class="previewline">We couldn&rsquo;t save your details just then. The guide is still yours &mdash; email <a href="mailto:hello@northwardcare.com">hello@northwardcare.com</a> if you&rsquo;d like to hear when we publish a new one.</p>'
+          : res.preview
+          ? '<p class="previewline">Preview mode: no submission endpoint is live here, so nothing was sent or stored.</p>'
+          : ''));
     }
   });
 

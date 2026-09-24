@@ -116,9 +116,26 @@ guideFile: 'assets/Northward-Care-Indian-Nurses-Guide-to-Working-in-the-UK.pdf'
 ```
 
 **How the automatic download works, already built.** On submit `forms.js`
-validates, posts to `/api/submit`, then creates a hidden `<a download>`
-pointing at `guideFile`, clicks it, and swaps the form for a confirmation
-panel carrying a manual fallback link. Nothing else to wire.
+validates, then — still inside the click that caused it — creates a hidden
+`<a download>` pointing at `guideFile` and clicks it. Only then does it post
+to `/api/submit`, and it shows the confirmation panel whichever way that goes.
+
+Two deliberate choices there:
+
+- **Delivery never depends on logging.** If the Sheet is unreachable the
+  reader still gets the guide; we lose a row, not a reader. The panel says so
+  quietly and offers the email address.
+- **The download fires inside the user gesture.** Browsers allow a download
+  started that way far more readily than one fired after an `await`.
+
+The panel also carries an **Open the guide** link with `target="_blank"`. That
+is not just a fallback: on iOS Safari a programmatic `<a download>` is
+unreliable, and opening the PDF in a tab lets Safari's own viewer handle
+saving and sharing. It is the path many phone users will actually take.
+
+> The preview artifact cannot demonstrate this. Its sandbox blocks any
+> download a page starts itself, by design. The **Open the guide** button
+> works there; the automatic download only works on the real domain.
 
 If you ever rename the PDF, change `config.js` in the same commit. That is the
 only place the path appears.
