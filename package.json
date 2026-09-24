@@ -1,0 +1,8 @@
+{
+  "name": "northward-care",
+  "private": true,
+  "description": "Northward Care website. Static pages in site/, one serverless function in api/.",
+  "engines": {
+    "node": "22.x"
+  }
+}
