@@ -57,6 +57,8 @@
 
   function payload(form, source) {
     var data = { source: source, page: location.pathname, submittedAt: new Date().toISOString() };
+    var consentLabel = form.querySelector('.consent label span');
+    if (consentLabel) data.consentWording = consentLabel.textContent.replace(/\s+/g, ' ').trim();
     try {
       var p = new URLSearchParams(location.search);
       ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function (k) {
@@ -79,8 +81,10 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     }).then(function (r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return { preview: false };
+      return r.json().catch(function () { return {}; }).then(function (j) {
+        if (!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
+        return { preview: false };
+      });
     });
   }
 
@@ -143,7 +147,7 @@
   /* ---- the guide: submit, then the download starts itself -------------- */
   wire(document.getElementById('guide-form'), {
     source: 'guide',
-    endpoint: function () { return CFG.guideEndpoint; },
+    endpoint: function () { return CFG.endpoint; },
     done: function (form, res) {
       var file = CFG.guideFile;
       if (file && !res.silent) {
@@ -164,7 +168,7 @@
   wire(reg, {
     source: 'register',
     scope: function () { return reg.querySelector('.step-panel:not([hidden])'); },
-    endpoint: function () { return CFG.registerEndpoint; },
+    endpoint: function () { return CFG.endpoint; },
     done: function (form, res) {
       panel(form, 'You&rsquo;re on the Register.',
         '<p>We&rsquo;ll email you to confirm. If something on your profile needs clarifying we&rsquo;ll ask once, and then you&rsquo;ll hear from us when a live UK role suits you.</p>' +

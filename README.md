@@ -24,23 +24,29 @@ never named on it.
 | `docs/03-site-structure.md` | Sitemap, page-by-page section specs, build order. |
 | `docs/04-content-rules.md` | Voice, banned phrases, CTA rules, the patience rule, placeholders. |
 | `site/*.html` | The six pages plus a 404. Static, no build step. |
-| `site/config.js` | **The only file that changes at go-live** — form endpoints. |
+| `site/config.js` | The form endpoint and the guide filename. |
+| `api/submit.js` | Serverless function: validates, appends to Google Sheets. |
+| `vercel.json` | Output directory, security headers, cache policy. |
 | `site/site.js` | Mobile menu, page transitions, scroll reveal, the register stepper. |
 | `site/forms.js` | Validation, submission, the guide auto-download. |
-| `docs/05-register-database.md` | Building the Register in Microsoft Lists + Power Automate. |
+| `docs/05-register-database.md` | Where submissions go: Vercel function → Google Sheets. |
 | `docs/06-go-live.md` | Hosting, domain, email, the e-book, launch checklist. |
-| `docs/register-schema.csv` | The Register's 34 columns, importable. |
+| `docs/sheet-headers.csv` | Header rows to paste into the two sheet tabs. |
 | `site/styles.css` | Brand tokens (colour, type, spacing) + page styles. |
 
 ## Going live
 
 Read `docs/06-go-live.md`. The short version: the blockers are legal
-(solicitor, ICO, privacy notice, retention period), hosting is Cloudflare
-Pages pointed at `site/`, and connecting the forms is two lines in
-`site/config.js`.
+(solicitor, ICO, privacy notice, retention period, legal entity name), hosting
+is Vercel pointed at `site/`, and both forms post to `/api/submit` on the same
+domain, which writes to a Google Sheet.
 
-While those endpoints are blank both forms stay in preview mode — they
-validate and show the success state but send nothing, and say so.
+Connecting them means creating the Sheet, creating a Google service account,
+sharing the Sheet with it, and setting four environment variables in Vercel.
+No endpoint URL or key ever reaches the browser.
+
+Blank `endpoint` in `site/config.js` and both forms fall back to preview mode:
+they validate and show the success state but send nothing, and say so.
 
 ## Running the page locally
 

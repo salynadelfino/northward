@@ -17,23 +17,22 @@ rushed at the end; everything from step 4 is a couple of hours.
 | 1.3 | Write the privacy notice, publish at `/privacy.html` | Charlie | UK GDPR Article 13. The forms have to point somewhere. |
 | 1.4 | Decide the **retention period** | Charlie | Stated on both forms and drives `RetentionReviewDate`. |
 | 1.5 | Confirm the **legal entity name** | Charlie | Replaces `[legal entity name]` in the consent block. |
-| 1.6 | Finish the guide PDF | Salyna | The site offers a document that does not exist yet. |
+| 1.6 | ~~Finish the guide PDF~~ | Salyna | **Done** — in `site/assets/`, wired up. |
 
-### 1.7 — The guide form has no data notice
+### 1.7 — Data notices
 
-Right now the guide form collects a name, email and phone number and says
-nothing about what happens to them. That was a deliberate design decision to
-keep the form to four fields, and **it cannot ship that way.**
+**Done.** The guide form now carries a data notice under the submit button,
+and the Register keeps its consent block. Both still contain
+`[legal entity name]` and `[retention period]`, which is what 1.4 and 1.5
+resolve. Check with:
 
-Minimum fix: one line under the submit button.
-
-```html
-<p class="form-note">
-  Your details are held by [legal entity name], trading as Northward Care.
-  We&rsquo;ll email you the guide and let you know when we publish something new.
-  See our <a href="privacy.html">privacy notice</a>.
-</p>
 ```
+grep -rn "\[legal entity name\]\|\[retention period\]" site/*.html
+```
+
+The CV upload field has been removed from the Register. It looked like it
+worked and silently discarded the file, which is worse than not offering it.
+The form now says a CV will be asked for when a profile is being reviewed.
 
 ---
 
@@ -42,13 +41,17 @@ Minimum fix: one line under the submit button.
 1. Buy **northwardcare.com**. Registrar is your choice; Cloudflare Registrar
    sells at cost and has no renewal markup.
 2. Point the nameservers at whoever will host DNS (see step 3).
-3. **Email**: add `northwardcare.com` as a domain in Microsoft 365 Admin →
-   Settings → Domains, and create `hello@northwardcare.com` as a **shared
-   mailbox**, not a user mailbox. Shared mailboxes are free, and more than one
-   person can work the inbox.
+3. **Email**: in the new Northward Google Workspace, add `northwardcare.com`
+   as a domain, then create `hello@northwardcare.com` as a **shared inbox**
+   (Workspace calls it a Group with collaborative inbox turned on), not a user
+   account. It is free and more than one person can work it.
 4. **Authenticate the domain before you send anything.** SPF, DKIM and DMARC.
-   M365 Admin → Settings → Domains walks you through SPF and DKIM; add DMARC
-   manually as a TXT record on `_dmarc.northwardcare.com`:
+   Google Admin → Apps → Google Workspace → Gmail → Authenticate email gives
+   you the DKIM record; add SPF and DMARC as TXT records yourself:
+
+   ```
+   @          TXT   v=spf1 include:_spf.google.com ~all
+   ```
 
    ```
    v=DMARC1; p=none; rua=mailto:hello@northwardcare.com; fo=1
@@ -60,122 +63,116 @@ Minimum fix: one line under the submit button.
 
 ---
 
-## 3 — Hosting
+## 3 — Hosting: Vercel
 
-The site is static: seven HTML files, one stylesheet, three small scripts, a
-few images. No server, no database, no build step. That means hosting is free
-and fast.
+The site is static — seven HTML files, a stylesheet, three small scripts and a
+few images — plus one serverless function for form submissions. Vercel serves
+both from the same domain, which is why there is no CORS to configure.
 
-**Recommended: Cloudflare Pages.**
+### Set it up
 
-- Free, with a genuinely good edge presence in India — which matters, because
-  that is where every visitor is.
-- Connects straight to the GitHub repo. Push to the branch, the site updates.
-- Free TLS, automatic HTTP/2 and Brotli, and DDoS protection you do not have
-  to think about.
+1. [vercel.com](https://vercel.com) → sign in with GitHub → **Add New →
+   Project** → import `salynadelfino/northward`
+2. Framework preset: **Other**
+3. Leave the build command empty. `vercel.json` already sets the output
+   directory to `site` — do not override it in the dashboard, or the two will
+   disagree.
+4. **Deploy.** You get a `*.vercel.app` URL in about thirty seconds. Check it
+   before pointing the domain at anything.
+5. **Settings → Environment Variables** — add the four from
+   `docs/05-register-database.md`, to Production, Preview *and* Development.
+   Then **redeploy**: Vercel does not apply new variables to an existing build.
+6. **Settings → Domains** → add `northwardcare.com` and `www.northwardcare.com`.
+   Vercel gives you the DNS records; add them at your registrar. TLS is
+   automatic. Set www to redirect to the apex.
 
-**The Microsoft-estate alternative: Azure Static Web Apps.** Same idea, same
-GitHub integration, and it keeps hosting inside the tenancy you already
-administer. It is slightly slower from India than Cloudflare's edge and the
-free tier is more limited. If your preference is to keep everything in one
-place, it is a perfectly good choice — this is a preference call, not a
-technical one.
+### What is already configured
 
-**Not recommended:** SharePoint. It can serve pages, but it cannot serve a
-public marketing site at a custom domain with clean URLs, and it will fight you
-over every one of those.
+`vercel.json` in the repo root sets the output directory, security headers
+(`X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`,
+`Permissions-Policy`) and cache lifetimes — a week for `/assets`, an hour for
+CSS and JS, and no-cache for `config.js` so a change to it takes effect at
+once.
 
-### Setting up Cloudflare Pages
+### Preview deployments
 
-1. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**
-2. Pick `salynadelfino/northward`
-3. Build settings:
-   - Framework preset: **None**
-   - Build command: *leave empty*
-   - Build output directory: **`site`**
-4. Deploy. You get a `*.pages.dev` URL immediately — check it before you point
-   the domain.
-5. **Custom domains** → add `northwardcare.com` and `www.northwardcare.com`,
-   and redirect www to the apex.
-6. Add a `_redirects` file if you want clean URLs without `.html` — optional,
-   and only worth doing before launch, never after (it changes every URL).
+Every push to a non-production branch gets its own URL. Use one to test a
+change against the real function before it reaches the live domain. Preview
+URLs are public but not indexed.
 
----
+## 4 — The e-book
 
-## 4 — The e-book: where it lives and how it auto-downloads
+**Done.** `Northward-Care-Indian-Nurses-Guide-to-Working-in-the-UK.pdf` is in
+`site/assets/` — 617 KB, 37 pages, with its Title metadata set so it names
+itself properly when it opens in a viewer.
 
-**Put the PDF in the repo**, at `site/assets/northward-care-uk-nursing-guide.pdf`.
+Uploading it was not quite enough on its own: `config.js` has to point at the
+exact filename, **including capitalisation**, because Vercel serves from Linux
+where `Northward-Care-…` and `northward-care-…` are different files. That
+is now set:
 
-That is genuinely the right answer here:
+```js
+guideFile: 'assets/Northward-Care-Indian-Nurses-Guide-to-Working-in-the-UK.pdf'
+```
 
-- It deploys with the site, so it is on the same CDN edge and downloads fast
-  from India.
-- `<a download>` works against a same-origin file with no configuration.
-- No expiring links, no SharePoint sign-in wall, nothing to break in six months.
+**How the automatic download works, already built.** On submit `forms.js`
+validates, posts to `/api/submit`, then creates a hidden `<a download>`
+pointing at `guideFile`, clicks it, and swaps the form for a confirmation
+panel carrying a manual fallback link. Nothing else to wire.
 
-**Do this before committing it:**
+If you ever rename the PDF, change `config.js` in the same commit. That is the
+only place the path appears.
 
-1. Export at "smallest file size / web" — target under 5 MB. A 30 MB PDF on a
-   3G connection is a download nobody finishes.
-2. Name the file exactly `northward-care-uk-nursing-guide.pdf`. That name is
-   what the nurse sees in their downloads folder and what gets forwarded on.
-3. Set the PDF's Title metadata — it becomes the browser tab title when it
-   opens in a viewer.
-
-**How the automatic download works, already built:**
-
-`forms.js` handles submit → validate → POST to Power Automate → create a
-hidden `<a download>` pointing at `NORTHWARD.guideFile` → click it → swap the
-form for a confirmation panel with a manual fallback link. Nothing to wire; it
-reads the path from `config.js`.
-
-> **On gating:** the URL is public once someone knows it. That is fine — the
-> guide is a free educational asset and the form is the point of contact, not
-> a paywall. If you ever need it genuinely gated, Flow 2 can return a
-> time-limited Azure Blob SAS link instead. Do not build that now.
-
----
+> **On gating:** the URL is guessable once someone has it, and that is fine —
+> the guide is a free educational asset and the form is a point of contact,
+> not a paywall. If it ever needs to be genuinely gated, the function can
+> return a short-lived signed URL instead. Do not build that now.
 
 ## 5 — Connect the forms
 
-This is the only code change at go-live, and it is two lines.
+Both forms post to `/api/submit` on your own domain. There is no endpoint URL
+to paste and no key in the browser — the credentials are Vercel environment
+variables, read server-side only.
 
-1. Build the two flows in `docs/05-register-database.md`.
-2. Copy each flow's **HTTP POST URL** from its trigger.
-3. Edit `site/config.js`:
+So "connecting the forms" is really just step 3.5 and step 2 of
+`docs/05-register-database.md`:
 
-```js
-window.NORTHWARD = {
-  registerEndpoint: 'https://prod-00.uksouth.logic.azure.com:443/workflows/...',
-  guideEndpoint:    'https://prod-00.uksouth.logic.azure.com:443/workflows/...',
-  guideFile: 'assets/northward-care-uk-nursing-guide.pdf',
-  minSeconds: 3
-};
-```
+1. Create the Sheet with the two tabs and the header rows
+2. Create the service account, download the JSON key, **share the Sheet with
+   the service account's email as Editor**
+3. Add the environment variables in Vercel and redeploy
 
-4. Commit and push. Cloudflare redeploys in under a minute.
+`site/config.js` already points at `/api/submit`. Blank it out and both forms
+fall back to preview mode — they validate and show the success panel but send
+nothing, and say so on screen. Nothing is ever silently lost.
 
-**While those URLs are blank the forms stay in preview mode** — they validate
-and show the success panel, but send nothing, and say so. So nothing is ever
-silently lost.
+### Testing it
 
-> Those URLs contain an access signature. They are not secret in a meaningful
-> sense — they sit in client-side JavaScript — so **rely on the flow for
-> validation, not on the URL being unguessable.** The honeypot and the
-> three-second minimum in `forms.js` stop casual bots; the flow's consent check
-> stops the rest.
+Submit both forms on the live domain, then check:
 
----
+- a row appears on the right tab, with `submittedAt` and `status = New`
+- `consentWording` holds the exact text the form displayed
+- the guide PDF actually downloads — **test on Android Chrome and iOS Safari
+  separately**, they handle programmatic downloads differently
+- a deliberately empty submit shows per-field errors and sends nothing
+- Vercel → your project → **Logs** shows the function returning 200
+
+If a submission fails, the form says so and offers the email address rather
+than swallowing it. The Vercel log has the real reason.
 
 ## 6 — Analytics
 
-Use **Cloudflare Web Analytics**. Free, cookieless, no consent banner needed,
-and one script tag. Add it to each page before `</head>`.
+Use **Vercel Web Analytics** — it is in the dashboard you are already using,
+cookieless, and needs no consent banner. Project → Analytics → Enable, then
+add the one script tag it gives you.
 
-Do not install Google Analytics. It needs a cookie banner, the banner costs
-you conversions, and for the first six months the only numbers that matter are
-in the Register itself: how many joined, from which `UtmSource`, at what
-`Stage`.
+Plausible or Cloudflare Web Analytics are equally fine if you would rather the
+data sat outside Vercel. All three are cookieless.
+
+Do not install Google Analytics, even though you will now have a Google
+Workspace. It needs a cookie consent banner, the banner costs you
+conversions, and for the first six months the only numbers that matter are in
+the Sheet itself: how many joined, from which `utm_source`, at what `stage`.
 
 Tag every link you post anywhere:
 
@@ -183,18 +180,19 @@ Tag every link you post anywhere:
 https://northwardcare.com/guide.html?utm_source=instagram&utm_medium=bio&utm_campaign=launch
 ```
 
-`forms.js` already captures those into the submission, so the Register tells
-you which post produced which nurse.
+`forms.js` captures those into every submission, so the Sheet tells you which
+post produced which nurse — without any analytics tool at all.
 
 ---
 
 ## 7 — Launch day checklist
 
-- [ ] `config.js` has both endpoints, pushed
+- [ ] Environment variables set in Vercel, and redeployed after adding them
+- [ ] Sheet shared with the service account as Editor
 - [ ] Submit the Register form yourself, on a real phone, on mobile data
-- [ ] Submit the guide form — confirm the PDF actually downloads on Android
+- [ ] Submit the guide form — confirm the PDF downloads on Android Chrome
       **and** iOS Safari
-- [ ] Both records land in the List with the right Status and consent wording
+- [ ] Both rows land on the right tab with `status = New` and the consent wording stored
 - [ ] The confirmation emails arrive, and not in spam
 - [ ] `[legal entity name]` and `[retention period]` are replaced everywhere
       (`grep -rn "\[" site/*.html`)

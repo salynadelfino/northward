@@ -1,193 +1,205 @@
-# 05 — The Register: building the database
+# 05 — Where submissions go
 
-The Register is the asset. The website is how people reach it.
+```
+northwardcare.com  →  /api/submit  →  Google Sheet
+  (Vercel static)      (Vercel function)   (Northward Workspace)
+```
 
-Everything below assumes Microsoft 365, because that is what you already run.
-No new subscription, no new supplier, no data leaving the tenant.
+Both forms post to **one endpoint on your own domain**. The function validates,
+then appends a row to a Google Sheet. The `source` field decides which tab.
+
+Because `/api/submit` is the same origin as the site, there is no CORS to
+configure — which removes the single most common way this kind of setup
+silently fails.
 
 ---
 
-## The shape
+## Google Sheets or Supabase?
 
-```
-Website form  →  Power Automate  →  Microsoft List  →  Excel / views
-(northwardcare.com)   (validates,      (the Register,      (weekly review)
-                       de-dupes,        on SharePoint)
-                       emails)
-```
+**Google Sheets. You do not need Supabase.**
 
-**Microsoft List on SharePoint**, not an Excel file. The difference matters:
-
-| | Excel on SharePoint | Microsoft List |
+| | Google Sheets | Supabase |
 |---|---|---|
-| Two people editing at once | Conflicts, lost rows | Fine |
-| Per-record permissions | No | Yes |
-| Version history per record | No | Yes |
-| Attachments (CVs) | Awkward | Built in |
-| Power Automate writes | Fragile — breaks on a moved column | Stable |
-| Views per stage | Manual filters | Saved views |
+| Setup | An hour | A day, plus schema migrations |
+| Charlie can work in it directly | Yes | No — SQL or a dashboard |
+| Filter, sort, pivot, share a view | Native | Build it |
+| Cost at your volume | Free | Free tier, then paid |
+| Practical ceiling | Fine to ~50,000 rows | Millions |
+| Concurrent editing | Fine | N/A |
+| Relational integrity | None | Proper |
 
-You can still open a List in Excel whenever you want to pivot something. You
-cannot turn an Excel file into a List once four people have edited it.
+You are collecting a few hundred to a few thousand nurse profiles a year, and
+the people working them live in spreadsheets. Sheets wins on every axis that
+matters right now, and the API is stable enough that moving later is a day's
+work, not a rewrite.
 
-**Why not Airtable, Notion or a CRM?** Because the data is UK-and-India
-personal data belonging to overseas nationals, and keeping it inside the
-tenant you already have a DPA for is a much shorter compliance conversation.
-Revisit at a few thousand records, not before.
+**Move to Supabase when** you outgrow one of these, not before:
+- more than roughly 20,000 rows and filtering gets slow
+- you need real relationships — a candidate with many applications to many
+  employers, with history
+- you need per-record access control finer than "who can open the sheet"
+- you want employers logging in to see shortlists
+
+The function is the seam. Swapping `appendRow()` for a Supabase insert is
+about fifteen lines, and nothing on the website changes.
+
+**Why not a Google Form?** It cannot do the three-step flow, it cannot be
+styled, it breaks the page-to-page feel, and it puts a Google-branded page in
+the middle of your funnel. The form you have is better and already built.
 
 ---
 
-## Step 1 — Create the list
+## Step 1 — The Sheet
 
-1. SharePoint → your Northward Care site → **New → List → Blank list**
-2. Name it **Northward Register**
-3. Settings → **List settings → Versioning settings** → turn item version
-   history **on**. This is how you evidence what a record said and when.
-4. Settings → **Advanced settings → Attachments: Enabled** (for CVs)
+In the new Northward Google Workspace, as an account you control (not a
+personal one):
 
-## Step 2 — Add the columns
+1. Create a spreadsheet: **Northward Care — Register**
+2. Rename `Sheet1` to **`Register`**, then add a second tab, **`Guide`**.
+   The names are case-sensitive and must match exactly.
+3. Paste the header rows from `docs/sheet-headers.csv` across row 1 of each
+   tab. Fastest way: copy the comma-separated line, paste into A1, then
+   **Data → Split text to columns**.
+4. **View → Freeze → 1 row.**
+5. Format the `submittedAt` column as date-time.
 
-`docs/register-schema.csv` is the full schema — 34 columns, with type,
-required flag and choices. Two ways in:
+Two tabs rather than one because the field sets barely overlap — a guide row
+carried through the Register's 28 columns would be 20 blank cells of noise.
+The Register tab is the one that gets worked.
 
-- **By hand**, following the CSV. Takes about 40 minutes and you will
-  understand the list afterwards.
-- **From Excel**: open the CSV, make a one-row sheet with the column names as
-  headers, format as a table, then SharePoint → **New → List → From Excel**.
-  Faster, but check every column type afterwards — it guesses, and it guesses
-  Number for `YearOfQualification` and Text for the choice fields.
+### The columns
 
-Three things to get right, because they are painful to change later:
+Taken straight from `api/submit.js`, which is the source of truth. **Append
+only.** Reordering columns makes every historic row shift under the wrong
+heading, silently.
 
-- **Title** is mandatory in every List and cannot be removed. Map the
-  candidate's full name to it, so the list reads properly.
-- **Choice columns** must not allow "fill-in" values. One free-typed
-  "Kerela" and your filters stop working.
-- **EnglishScores is text, never a number.** Requirements are assessed per
-  component; a single overall figure hides the component that failed.
+| Column | Notes |
+|---|---|
+| `submittedAt` | Set by the server, not the browser. Do not let anyone edit it. |
+| `name` `email` `whatsapp` `state` | WhatsApp stored with country code. |
+| `qualification` … `employer` | The professional profile. |
+| `stage` `english` `scores` `nmc` `timeframe` | Readiness. `scores` is text — requirements are assessed per component, and a single overall figure hides the one that failed. |
+| `setting` `locations` | Preferences. Not binding, a filter hint. |
+| `consent` `consent_updates` | `consent` false never reaches the sheet; the function rejects it. |
+| `consentWording` | The exact words shown at submission. Evidence, not decoration — if the wording changes, old rows keep what they were actually shown. |
+| `status` | The only column staff change daily. Defaults to `New`. |
+| `utm_*` `referrer` `page` | Where they came from. This is how you learn which post produced which nurse. |
 
-## Step 3 — Views that do the daily work
+### Status values
 
-Create these as saved views. They are the whole operating rhythm.
+`New → Reviewing → Qualified → Introduced → Placed`, plus `On hold`,
+`Not suitable`, `Removed`. Set it as a dropdown: select the column →
+**Data → Data validation → Dropdown**.
 
-| View | Filter | Who uses it |
+### Views that do the work
+
+Sheets has no saved views, so use **filter views** (Data → Create a filter
+view) — they are per-person and do not disturb anyone else's screen.
+
+| Filter view | Filter | When |
 |---|---|---|
-| **New this week** | `Status = New` | Daily triage |
-| **To qualify** | `Status = Reviewing` | Daily |
-| **Ready now** | `Status = Qualified` AND `Stage = Ready now` | Matching against live roles |
-| **Preparing** | `Status = Qualified` AND `Stage = Preparing` | The nurture list |
-| **Gone quiet** | `LastContacted` older than 90 days AND `Status = Qualified` | Monthly. This is how registers die. |
-| **Outside India** | `State = Outside India` | Weekly. A targeting check, not a lead list. |
-| **Due for deletion** | `RetentionReviewDate` on or before today | Monthly, and non-negotiable |
-| **Guide only** | `Source = guide` | The people to invite onto the Register |
+| New this week | `status = New` | Daily |
+| Ready now | `status = Qualified` and `stage` starts "Ready now" | Matching against live roles |
+| Preparing | `status = Qualified` and `stage` starts "Preparing" | The nurture list |
+| Gone quiet | `status = Qualified`, contacted over 90 days ago | Monthly — this is how registers die |
+| Outside India | `state = Outside India` | Weekly. A targeting check, not a lead list. |
+| Due for deletion | `submittedAt` older than the retention period | Monthly, non-negotiable |
+| Guide only | on the Guide tab | The people to invite onto the Register |
 
-Group **Ready now** by `Speciality`, then by `Experience`. That is the view
-you will actually open when an employer says "two ICU nurses, 2+ years".
-
----
-
-## Step 4 — The flows
-
-Three flows in Power Automate. Build them in this order.
-
-### Flow 1 — Register submission (the important one)
-
-**Trigger:** *When an HTTP request is received*
-
-Request body JSON schema — paste this into the trigger:
-
-```json
-{ "type": "object", "properties": {
-  "source": {"type":"string"}, "submittedAt": {"type":"string"},
-  "name": {"type":"string"}, "email": {"type":"string"},
-  "whatsapp": {"type":"string"}, "state": {"type":"string"},
-  "qualification": {"type":"string"}, "institution": {"type":"string"},
-  "gradyear": {"type":"string"}, "homereg": {"type":"string"},
-  "experience": {"type":"string"}, "speciality": {"type":"string"},
-  "employer": {"type":"string"}, "stage": {"type":"string"},
-  "english": {"type":"string"}, "scores": {"type":"string"},
-  "nmc": {"type":"string"}, "timeframe": {"type":"string"},
-  "setting": {"type":"string"}, "locations": {"type":"string"},
-  "consent": {"type":"boolean"}, "consent_updates": {"type":"boolean"},
-  "utm_source": {"type":"string"}, "utm_medium": {"type":"string"},
-  "utm_campaign": {"type":"string"}, "referrer": {"type":"string"},
-  "page": {"type":"string"}
-}}
-```
-
-Then:
-
-1. **Condition** — `consent` is `true`. If false, respond 200 and stop. No
-   consent, no record.
-2. **Get items** on the list, filter `Email eq '<email>'`, top 1. If a record
-   exists, **update** it rather than creating a second one. Duplicates are the
-   single most common way a register turns into a mess.
-3. **Create item** (or update) — map every field. Set `Status` to `New`,
-   `ConsentWording` to the exact text the form displayed, and
-   `RetentionReviewDate` to `addDays(utcNow(), <retention days>)`.
-4. **Send an email (V2)** to the candidate from `hello@northwardcare.com`:
-   confirm they are on the Register, say what happens next, and say honestly
-   that it may be a while.
-5. **Post to Teams** in your Northward channel so someone sees it the same day.
-6. **Response** — status 200. The website is waiting on this.
-
-**Set the trigger's response before you test.** A flow with no Response action
-leaves the form spinning for 30 seconds.
-
-**CORS:** the Response action needs these headers, or the browser silently
-discards the reply:
-
-```
-Access-Control-Allow-Origin: https://northwardcare.com
-Access-Control-Allow-Methods: POST, OPTIONS
-Access-Control-Allow-Headers: Content-Type
-```
-
-Add a parallel branch at the top: if the request method is `OPTIONS`, respond
-200 with those headers and stop. Browsers send that preflight before the POST.
-
-### Flow 2 — Guide download
-
-Same trigger, four fields (`name`, `email`, `phone`, `stage`). Write to the
-same list with `Source = guide` and `Status = New`, and email the guide as an
-attachment as well — some people fill the form on a phone, lose the download
-in their browser, and never come back.
-
-Keep guide records in the same list, not a second one. One person, one row,
-whichever door they came through.
-
-### Flow 3 — Weekly digest
-
-Scheduled, Monday morning. Counts by `Status`, by `Stage` and by `UtmSource`,
-emailed to you. Five minutes to build and it is the only reporting you need
-for the first six months.
+Add a `lastContacted` column by hand at the end when you start working the
+list — the function ignores columns it does not know about.
 
 ---
 
-## Step 5 — The weekly rhythm
+## Step 2 — Service account
+
+The function needs to write to the sheet without a human signed in.
+
+1. [console.cloud.google.com](https://console.cloud.google.com) → create a
+   project, **Northward Care**.
+2. **APIs & Services → Library → Google Sheets API → Enable.**
+3. **APIs & Services → Credentials → Create credentials → Service account.**
+   Name it `northward-forms`. No roles needed — access comes from sharing the
+   sheet, not from IAM.
+4. Open the service account → **Keys → Add key → Create new key → JSON.**
+   Download it. This file is a password; do not commit it or email it.
+5. Open the Sheet → **Share** → paste the service account's email
+   (`northward-forms@….iam.gserviceaccount.com`) → **Editor** → uncheck
+   "Notify people" → Share.
+
+That last step is the one people miss. Without it every write returns 403.
+
+---
+
+## Step 3 — Environment variables
+
+Vercel → your project → **Settings → Environment Variables**. Add to
+Production, Preview and Development:
+
+| Name | Value |
+|---|---|
+| `SHEET_ID` | The long id in the sheet's URL, between `/d/` and `/edit` |
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | `client_email` from the JSON key |
+| `GOOGLE_PRIVATE_KEY` | `private_key` from the JSON key — **paste it whole**, including the BEGIN/END lines |
+| `NOTIFY_WEBHOOK` | Optional. A Google Chat or Slack incoming webhook. |
+
+On the private key: the JSON file has it with `\n` escapes. Paste it exactly
+as it appears there, quotes and all if that is what you copy. The function
+converts `\n` back to real newlines. If you get
+`error:1E08010C:DECODER routines::unsupported`, the newlines are the problem.
+
+Redeploy after adding variables — Vercel does not apply them to an existing
+build.
+
+---
+
+## Step 4 — Confirmation emails
+
+The function writes the row; it does not send email. Add that with a simple
+Apps Script on the Sheet, which keeps everything in the Workspace and sends
+from a real `@northwardcare.com` address:
+
+1. Sheet → **Extensions → Apps Script**
+2. A function that reads the last row, sends via `MailApp.sendEmail`, and
+   writes `Yes` to a `confirmationSent` column so it never double-sends
+3. **Triggers → Add trigger → time-driven → every 5 minutes**
+
+Poll rather than trigger on edit: `onEdit` does not fire for API writes, which
+is a genuinely confusing afternoon if you do not know it.
+
+Gmail sending limits on Workspace are 1,500–2,000 a day. Far beyond anything
+you will hit.
+
+---
+
+## The weekly rhythm
 
 | When | What | How long |
 |---|---|---|
-| Daily | Work **New this week**: check plausibility, chase a missing CV once, set `Status` | 15 min |
+| Daily | Work **New this week** — check plausibility, set `status` | 15 min |
 | Weekly | Review **Ready now** against live employer requirements | 30 min |
 | Monthly | Work **Gone quiet** — send the update even when there is no role | 30 min |
 | Monthly | Work **Due for deletion**. Actually delete. | 10 min |
 | Quarterly | Re-check every rule stated on the site against the NMC and GOV.UK | 1 hour |
 
-A register that is not contacted decays in about three months. The monthly
-update is not marketing; it is what keeps the asset alive.
+A register nobody contacts decays in about three months. The monthly update is
+not marketing; it is what keeps the asset alive.
 
 ---
 
-## Data protection, concretely
+## Data protection
 
+- **Access**: share the Sheet with named people only. Never "anyone with the
+  link", not even view-only — it holds names, contact details and career
+  histories of identifiable people.
 - **Retention**: set the period, then let the *Due for deletion* view enforce
-  it. A period you do not act on is worse than no period at all.
-- **Consent evidence**: `ConsentWording` stores the exact words shown at the
-  time. If the wording changes, old records keep what they were actually
-  shown.
-- **CVs** are list attachments, inside the tenant, never a public URL.
-- **Access**: give the list to named people, not "Everyone". SharePoint
-  defaults are more generous than you expect — check them.
-- **Deletion requests**: delete the item, and empty the site recycle bin.
-  Items sit there for 93 days otherwise, which is still holding the data.
+  it. A period nobody acts on is worse than none.
+- **Deletion requests**: delete the row, and empty the Sheet's trash. Rows sit
+  recoverable otherwise, which is still holding the data.
+- **Formula injection** is handled — the function prefixes anything starting
+  `=`, `+`, `-` or `@` with an apostrophe, so a submitted `=HYPERLINK(...)`
+  lands as text rather than executing in your spreadsheet.
+- **CVs** are not collected by the function. The upload field is on the form
+  but files are not sent; ask for a CV by email once someone is being
+  reviewed. Handling uploads properly needs storage and virus scanning, and it
+  is not worth it for a field most people skip.
