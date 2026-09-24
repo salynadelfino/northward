@@ -32,6 +32,7 @@ never named on it.
 | `docs/05-register-database.md` | Where submissions go: Vercel function → Google Sheets. |
 | `docs/06-go-live.md` | Hosting, domain, email, the e-book, launch checklist. |
 | `docs/sheet-headers.csv` | Header rows to paste into the two sheet tabs. |
+| `docs/apps-script/Code.gs` | Automatic confirmation and alert emails, run from the Sheet. |
 | `site/styles.css` | Brand tokens (colour, type, spacing) + page styles. |
 
 ## Going live

@@ -153,24 +153,90 @@ build.
 
 ---
 
-## Step 4 — Confirmation emails
+## Step 4 — Automatic emails
 
-The function writes the row; it does not send email. Add that with a simple
-Apps Script on the Sheet, which keeps everything in the Workspace and sends
-from a real `@northwardcare.com` address:
+The website writes the row. A script attached to the Sheet sends the emails —
+one to the person who filled the form, one to you.
 
-1. Sheet → **Extensions → Apps Script**
-2. A function that reads the last row, sends via `MailApp.sendEmail`, and
-   writes `Yes` to a `confirmationSent` column so it never double-sends
-3. **Triggers → Add trigger → time-driven → every 5 minutes**
+It lives in the repo at **`docs/apps-script/Code.gs`** so it is version
+controlled rather than only existing inside Google.
 
-Poll rather than trigger on edit: `onEdit` does not fire for API writes, which
-is a genuinely confusing afternoon if you do not know it.
+### Why a script on the Sheet, and not the website
 
-Gmail sending limits on Workspace are 1,500–2,000 a day. Far beyond anything
-you will hit.
+Sending from `hello@northwardcare.com` needs an account that owns that
+address. The Vercel function has no Google identity of its own, so it would
+need either domain-wide delegation (fiddly) or a third-party sending service
+(another vendor, another set of DNS records). A script running inside your
+Workspace just sends, as you.
 
----
+### The trap that costs people an afternoon
+
+**Google's `onEdit` and `onChange` triggers do not fire for rows written by an
+API.** They only respond to a person typing in the Sheet. Since the website
+writes through the Sheets API, an `onChange` trigger sits there doing nothing
+and looks broken.
+
+So the script **polls**: it runs every few minutes, finds rows that have not
+been emailed yet, emails them, and stamps a `confirmationSent` column so
+nobody is ever emailed twice. That column is created automatically the first
+time it runs.
+
+### Setting it up
+
+1. Open the Sheet → **Extensions → Apps Script**
+2. Delete whatever is in `Code.gs` and paste in the contents of
+   `docs/apps-script/Code.gs`
+3. Edit the `CONFIG` block at the top — the site address, and where your own
+   alerts should go
+4. **Save**, then choose `testSendToMyself` from the function dropdown and
+   click **Run**. Approve the permissions when asked. Check your inbox.
+5. When that looks right: **Triggers** (the clock icon) → **Add trigger**
+   - Function: `processNewSubmissions`
+   - Event source: **Time-driven**
+   - Type: **Minutes timer**, every **5 minutes**
+6. Submit a form on the live site and wait a few minutes
+
+Every minute is allowed if you want it faster. Five is plenty — the guide
+downloads instantly anyway, so the email is a follow-up rather than the
+delivery.
+
+### Sending from hello@ rather than your own address
+
+By default the email comes from whichever account owns the script. To send as
+`hello@northwardcare.com`:
+
+1. Gmail → **Settings → Accounts → Send mail as → Add another email address**
+2. Add `hello@northwardcare.com` and verify it (you need to be able to receive
+   at that address — if it is a Group, make sure you are a member)
+3. Leave `fromAddress` in `CONFIG` set to it
+
+If verification is not possible, blank out `fromAddress` and emails go from
+your own address. Not ideal, but it works from day one.
+
+### What the emails say
+
+**Guide** — the download link again (people lose the browser download),
+what is inside, and a nudge towards the Register.
+
+**Register** — confirmation, three numbered steps for what happens next, and
+an honest line that there may be nothing suitable for a while. That last part
+is deliberate: it is the same promise the site makes, and breaking it in the
+first email would undo the thing the whole brand is built on.
+
+Both carry the standing disclaimer and a line about how to be removed.
+
+**Your own alert** batches whatever came in during that run, so five
+submissions in five minutes is one email rather than five.
+
+### If something goes wrong
+
+A row that fails gets `FAILED: <reason>` written into `confirmationSent`
+rather than being left blank. That way one bad address cannot block every row
+behind it, and you can see what happened in the Sheet without opening the
+script logs.
+
+Gmail on Workspace allows around 1,500 recipients a day, which is far beyond
+anything this will reach.
 
 ## The weekly rhythm
 
