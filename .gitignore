@@ -1,0 +1,6 @@
+# Local scratch from browser testing — never part of the site
+site/_*.html
+.env
+.env.local
+.vercel
+node_modules/

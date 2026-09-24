@@ -11,7 +11,7 @@ window.NORTHWARD = {
 
   // The guide file, relative to the site root. Must match the file in
   // site/assets exactly — Vercel serves from Linux, so case matters.
-  guideFile: 'assets/Northward-Care-Indian-Nurses-Guide-to-Working-in-the-UK.pdf',
+  guideFile: 'assets/northward-care-uk-nursing-guide.pdf',
 
   // Anything submitted faster than this is a bot, not a nurse.
   minSeconds: 3
