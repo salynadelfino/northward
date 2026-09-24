@@ -523,3 +523,98 @@ html.leaving body{opacity:0;transition:opacity .22s ease}
   .logo{font-size:1.14rem;gap:8px}
   .site-nav .btn{padding:8px 14px;font-size:14px}
 }
+
+/* ---------- guide: book mockup --------------------------- */
+/* Swap in real cover art by adding <img> inside .book — it fills the face
+   and covers the type below. Everything here is the brand system. */
+.bookshot{perspective:1500px;display:flex;justify-content:center;padding-block:8px}
+.book{
+  position:relative;width:min(304px,80%);aspect-ratio:1/1.33;
+  border-radius:3px 8px 8px 3px;overflow:hidden;
+  background:linear-gradient(152deg,#0E5F50 0%,var(--jade) 46%,#0A3B33 100%);
+  transform:rotateY(-16deg) rotateX(3deg);
+  box-shadow:24px 32px 64px -30px rgba(6,36,31,.62), 3px 3px 0 rgba(6,36,31,.06);
+  transition:transform .55s cubic-bezier(.22,.61,.36,1), box-shadow .55s ease;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:30px 26px 26px;color:#fff;
+}
+.bookshot:hover .book{transform:rotateY(-8deg) rotateX(2deg) translateY(-7px);box-shadow:26px 38px 72px -30px rgba(6,36,31,.7),3px 3px 0 rgba(6,36,31,.06)}
+.book img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.book::before{ /* the spine */
+  content:"";position:absolute;left:0;top:0;bottom:0;width:16px;z-index:2;
+  background:linear-gradient(90deg,rgba(0,0,0,.34) 0%,rgba(0,0,0,.10) 42%,rgba(255,255,255,.14) 62%,rgba(255,255,255,0) 100%);
+}
+.book::after{ /* page edge */
+  content:"";position:absolute;right:0;top:3px;bottom:3px;width:5px;z-index:2;
+  background:linear-gradient(90deg,rgba(255,255,255,.28),rgba(255,255,255,.62));
+}
+.book .kick{
+  font-family:var(--head);font-size:10.5px;font-weight:600;letter-spacing:.17em;
+  text-transform:uppercase;color:rgba(255,255,255,.72);margin:0;position:relative;z-index:1;
+}
+.book .ttl{
+  font-family:var(--head);font-weight:700;font-size:clamp(1.25rem,2.5vw,1.6rem);
+  line-height:1.14;letter-spacing:-.03em;margin:14px 0 0;position:relative;z-index:1;
+}
+.book .by{margin:0;font-size:13.5px;color:rgba(255,255,255,.76);position:relative;z-index:1}
+.book .rule{height:2px;width:44px;background:var(--mint);margin:16px 0 0;position:relative;z-index:1}
+@media (prefers-reduced-motion:reduce){
+  .book{transform:none;transition:none}
+  .bookshot:hover .book{transform:none}
+}
+
+/* ---------- wider text column where a list needs room ---- */
+@media(min-width:880px){ .split.split--text{grid-template-columns:1.42fr .72fr;align-items:center} }
+
+/* ---------- tick list ------------------------------------ */
+.ticks{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:13px}
+.ticks li{padding-left:30px;position:relative;color:var(--ink-2);font-size:16.5px;line-height:1.55}
+.ticks li::before{
+  content:"";position:absolute;left:1px;top:9px;width:13px;height:8px;
+  border-left:2.5px solid var(--jade);border-bottom:2.5px solid var(--jade);
+  transform:rotate(-45deg);
+}
+
+/* ---------- journey: stage accordion --------------------- */
+.acc{margin-top:36px;border-top:1px solid var(--rule)}
+.acc details{border-bottom:1px solid var(--rule)}
+.acc summary{
+  cursor:pointer;list-style:none;position:relative;
+  padding:21px 44px 21px 0;display:grid;gap:4px 18px;
+  grid-template-columns:44px 1fr;align-items:baseline;
+}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:hover .t{color:var(--jade)}
+.acc .n{font-family:var(--head);font-weight:700;font-size:14px;color:var(--jade)}
+.acc .t{font-family:var(--head);font-weight:600;font-size:17.5px;color:var(--pine);letter-spacing:-.018em;line-height:1.3}
+.acc summary::after{
+  content:"";position:absolute;right:10px;top:28px;width:11px;height:11px;
+  border-right:2px solid var(--jade);border-bottom:2px solid var(--jade);
+  transform:rotate(45deg);transition:transform .26s cubic-bezier(.22,.61,.36,1),top .26s ease;
+}
+.acc details[open] summary::after{transform:rotate(-135deg);top:32px}
+.acc .a{padding:0 44px 24px 62px;color:var(--ink-2);font-size:16.5px;max-width:70ch}
+.acc .a :last-child{margin-bottom:0}
+.acc .src{display:block;margin-top:12px;font-size:14.5px;color:var(--ink-3)}
+.acc .src a{font-family:var(--head);font-weight:500}
+@media(max-width:560px){
+  .acc summary{grid-template-columns:1fr;padding-right:40px}
+  .acc .a{padding-left:0}
+}
+
+/* ---------- about: 2x2 infographic ----------------------- */
+.infos{display:grid;gap:18px;margin-top:40px;grid-template-columns:1fr}
+@media(min-width:720px){.infos{grid-template-columns:1fr 1fr;gap:22px}}
+.info{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:30px 28px;transition:transform .26s ease,box-shadow .26s ease}
+.info:hover{transform:translateY(-3px);box-shadow:0 14px 34px -22px rgba(10,59,51,.45)}
+.info .ico{
+  width:46px;height:46px;border-radius:12px;background:var(--mist);
+  display:flex;align-items:center;justify-content:center;margin-bottom:20px;
+}
+.info h3{font-size:1.14rem;margin-bottom:9px}
+.info p{margin:0;color:var(--ink-2);font-size:16px}
+@media (prefers-reduced-motion:reduce){.info:hover{transform:none}}
+
+/* a lead-in line that gets its own emphasis, mid-prose */
+.leadin{font-weight:600;color:var(--pine);margin-top:1.6em}
+.pullout{font-weight:600;color:var(--pine);font-size:1.06em;margin-top:1.3em}

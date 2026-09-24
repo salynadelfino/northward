@@ -6,9 +6,24 @@
   var root = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---- land at the top of a new page, not a restored scroll position --- */
-  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  if (!location.hash) window.scrollTo(0, 0);
+  /* ---- land at the top of every page ----------------------------------
+     history.scrollRestoration is set in the inline head script so it is in
+     force before the browser can restore anything. This then forces the top
+     on each of the moments a stale offset can survive: script run, load, and
+     a back-navigation out of the bfcache. When the site is embedded (a
+     preview iframe), the surrounding page owns the scroll — asking the
+     document to scroll itself into view is the one request that reaches an
+     ancestor frame, so we do that too. */
+  function toTop() {
+    if (location.hash) return;
+    try { window.scrollTo(0, 0); } catch (err) {}
+    if (window.self !== window.top) {
+      try { document.documentElement.scrollIntoView({ block: 'start' }); } catch (err) {}
+    }
+  }
+  toTop();
+  window.addEventListener('load', toTop);
+  window.addEventListener('pageshow', toTop);
 
   /* ---- scroll reveal --------------------------------------------------- */
   var GRIDS = '.stages,.works,.pathway,.tenets,.faq,.field-grid';
@@ -66,4 +81,5 @@
 
   // Returning through the bfcache must not land on a faded-out page.
   window.addEventListener('pageshow', function () { root.classList.remove('leaving'); });
+
 })();

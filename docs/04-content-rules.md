@@ -138,12 +138,14 @@ exist and consent is on file.
 The guide form must never grow. Both say explicitly that downloading is not
 joining the Register.
 
-**On the missing checkbox:** the guide form now has no consent tickbox, by
-decision — the download is the transaction and a checkbox in front of it is
-friction. The privacy paragraph stays and must keep saying who holds the data,
-for how long, and that we will be in touch. Before launch, confirm with the
-solicitor which lawful basis covers the follow-up email, since consent is no
-longer being captured as a positive act. See `01-compliance-guardrails.md` §6.
+**The guide form now carries no data notice at all** — the consent tickbox and
+then the privacy paragraph were both removed by decision, to strip the form to
+four fields and a button. That is fine for a design preview and **is not fine
+at launch**: UK GDPR Article 13 requires the person to be told who the
+controller is and what happens to their details *at the point they hand them
+over*. Before this form goes live it needs, at minimum, one line under the
+button naming the controller and linking the privacy notice. This is on the
+blocking list in `03-site-structure.md`.
 
 ## Placeholders in the build
 

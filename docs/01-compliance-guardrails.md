@@ -102,8 +102,10 @@ the form goes live:
 - Consent wording versioned — the register stores **the exact wording shown and
   the timestamp**, not just a `true`
 
-**Structural consequence:** the consent block sits *above* the submit button and
-is visible without scrolling past it. The legal entity's name appears in the
+**Structural consequence:** on the Register, the consent block sits *above* the
+submit button and is visible without scrolling past it. **The guide form
+currently has no data notice** — see `04-content-rules.md`. It cannot go live
+that way. The legal entity's name appears in the
 privacy notice and in one line of the consent block, and nowhere above the
 footer rule. See `03-site-structure.md` § "Where the entity name appears".
 

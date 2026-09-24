@@ -22,14 +22,14 @@ Six pages. Nurses only.
 
 ```
 index.html      Home — the proposition, who it's for, the Register
-route.html      Your Route — the eight stages, with official sources
+journey.html    The Journey — eight stages as accordions, with official sources
 guide.html      The free guide; submitting the form starts the download
 register.html   Join the Register — three-step profile
 about.html      Why we exist, who we are, how we work
 faqs.html       What we are, the route, the Register
 ```
 
-Navigation is `Your Route · Free Guide · About · FAQs`, with **Join the
+Navigation is `The Journey · Free Guide · About · FAQs`, with **Join the
 Register** as a button in the header on every page.
 
 ### Deliberately not built
@@ -43,17 +43,17 @@ checkout, live chat, an open enquiry form, and a blog.
 | Page | Its one job |
 |---|---|
 | **Home** | Answer "who are these people, does this apply to me, what do I do next" — then offer the Register or the guide. |
-| **Your Route** | Reassure, then prove competence. Cites the NMC and GOV.UK for everything that changes. |
+| **The Journey** | Reassure, then prove competence. Cites the NMC and GOV.UK for everything that changes. |
 | **Free guide** | Convert a reader into a contactable person. The download fires on submit. |
 | **Register** | Convert a contactable person into a matchable nursing profile. |
-| **About** | Why this exists, who we are, and how we work. Carries the tenets. |
+| **About** | Who we are, why we exist, how we work — three bands, ending in a 2×2 infographic. |
 | **FAQs** | Guarantees, timelines, the OSCE, the advice line, and data. |
 
 ---
 
 ## Home page flow
 
-Six sections. Deliberately short — the detail lives on Your Route and About.
+Six sections. Deliberately short — the detail lives on The Journey and About.
 
 | # | Section | What it does |
 |---|---|---|
@@ -70,7 +70,7 @@ Six sections. Deliberately short — the detail lives on Your Route and About.
 |---|---|
 | The "No obligation to move" line under the hero buttons | Gone. It undercut the hero. |
 | The "What we are not" box | Folded into the copy as one clause. |
-| The route summary | Your Route owns it. The home page links there from the stage cards. |
+| The route summary | The Journey owns it. The home page links there from the stage cards. |
 | "How we work" / the tenets | Moved to About. |
 | "We will also tell you when the UK is not the answer" | Cut. It still appears, softened, in the FAQ. |
 
@@ -116,8 +116,13 @@ email comes from `hello@northwardcare.com`.
      JavaScript the page renders complete.
   2. **`prefers-reduced-motion` disables all of it** — the fade, the drift, the
      reveal and every hover transform.
-  3. **Every page lands at the top.** `history.scrollRestoration` is set to
-     `manual`, so a back-navigation does not restore a mid-page scroll.
+  3. **Every page lands at the top.** `history.scrollRestoration` is set in the
+     inline head script, before the browser can restore anything, and `site.js`
+     then forces the top at three moments a stale offset can survive: script
+     run, `load`, and a `pageshow` out of the bfcache. When the site is
+     embedded in a preview iframe the surrounding page owns the scroll, so
+     `documentElement.scrollIntoView()` is also called — the one request that
+     reaches an ancestor frame.
 - **Mark:** a solid two-tone north needle, jade over pine. No outline, no
   container. Must stay legible at 16px.
 - **Mobile:** most of this audience is mobile-only on Indian networks. The Register button is in the header on every page and never
@@ -147,6 +152,8 @@ question, not to rank for the phrase.
 
 **Blocking before launch:**
 
+0. **A data notice on the guide form.** It currently has none — no checkbox and
+   no privacy line. UK GDPR Article 13 requires one at the point of collection.
 1. Solicitor review of the consent wording, the disclaimer and the contact
    page, for the regulated-advice line (guardrail §3)
 2. ICO registration, and a privacy notice for the consent blocks to point at
