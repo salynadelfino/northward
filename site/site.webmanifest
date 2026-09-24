@@ -1,0 +1,14 @@
+{
+  "name": "Northward Care",
+  "short_name": "Northward",
+  "description": "UK nursing careers for qualified nurses in India.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F7F5F0",
+  "theme_color": "#0A3B33",
+  "icons": [
+    { "src": "/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

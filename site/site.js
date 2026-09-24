@@ -61,6 +61,53 @@
     setTimeout(revealAll, 1400);   // failsafe — nothing stays hidden
   }
 
+  /* ---- mobile menu ------------------------------------------------------ */
+  var toggle = document.querySelector('.navtoggle');
+  var nav = document.getElementById('sitenav');
+  if (toggle && nav) {
+    function setOpen(open) {
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) { nav.setAttribute('data-open', ''); } else { nav.removeAttribute('data-open'); }
+    }
+    toggle.addEventListener('click', function () {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setOpen(false);
+    });
+    document.addEventListener('click', function (e) {
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) setOpen(false);
+    });
+    // Leaving the mobile breakpoint must not strand the panel open.
+    window.matchMedia('(min-width: 801px)').addEventListener('change', function (e) {
+      if (e.matches) setOpen(false);
+    });
+  }
+
+  /* ---- register stepper -------------------------------------------------
+     forms.js validates the open step before this advances it; it binds its
+     guard in the capture phase and stops this handler if a field is missing. */
+  var regForm = document.getElementById('register-form');
+  if (regForm) {
+    var panels = regForm.querySelectorAll('.step-panel');
+    var marks = document.getElementById('progress').children;
+
+    regForm.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-next],[data-prev]');
+      if (!b) return;
+      var n = Number(b.dataset.next || b.dataset.prev);
+
+      panels.forEach(function (p) { p.hidden = p.dataset.step !== String(n); });
+      for (var i = 0; i < marks.length; i++) {
+        var s = i + 1;
+        marks[i].classList.toggle('done', s < n);
+        if (s === n) { marks[i].setAttribute('aria-current', 'step'); }
+        else { marks[i].removeAttribute('aria-current'); }
+      }
+      regForm.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
+  }
+
   /* ---- page transitions ------------------------------------------------ */
   if (reduce) return;
 

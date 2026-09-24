@@ -5,18 +5,32 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script>document.documentElement.className+=" js";if("scrollRestoration"in history)history.scrollRestoration="manual";</script>
 <title>The Indian Nurse’s Guide to Working in the UK — free download</title>
-<meta name="description" content="A free step-by-step guide for nurses in India: NMC registration, English requirements, assessments, job search, sponsorship, relocation and what to expect when you start working in the UK.">
+<meta name="description" content="A free step-by-step guide for nurses in India: NMC registration, English requirements, assessments, job search, sponsorship and relocation.">
 <link rel="canonical" href="https://northwardcare.com/guide.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="The Indian Nurse’s Guide to Working in the UK — free download">
 <meta property="og:description" content="A free step-by-step guide for nurses in India: NMC registration, English requirements, assessments, job search, sponsorship, relocation and what to expect when you start working in the UK.">
 <meta property="og:url" content="https://northwardcare.com/guide.html">
 <meta property="og:site_name" content="Northward Care">
-<meta name="robots" content="noindex"><!-- remove at launch -->
+<meta name="theme-color" content="#0A3B33">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta property="og:image" content="https://northwardcare.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Northward Care — your UK career could be closer than you think.">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Indian Nurse’s Guide to Working in the UK — free download">
+<meta name="twitter:description" content="A free step-by-step guide for nurses in India: NMC registration, English requirements, assessments, job search, sponsorship and relocation.">
+<meta name="twitter:image" content="https://northwardcare.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Public+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://northwardcare.com/"},{"@type":"ListItem","position":2,"name":"Free Guide","item":"https://northwardcare.com/guide.html"}]}]}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -24,13 +38,18 @@
 <header class="site-head">
   <div class="wrap">
     <a class="logo" href="./"><svg width="26" height="26" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 1.8 L14 19.2 L4.9 26.3 Z" fill="#0F6F5C"/><path d="M14 1.8 L23.1 26.3 L14 19.2 Z" fill="#0A3B33"/></svg>Northward Care</a>
-    <nav class="site-nav" aria-label="Primary">
+    <nav class="site-nav" id="sitenav" aria-label="Primary">
       <a href="journey.html">The Journey</a>
       <a href="guide.html" aria-current="page">Free Guide</a>
       <a href="about.html">About</a>
       <a href="faqs.html">FAQs</a>
-      <a class="btn btn-quiet" href="register.html">Join the Register</a>
     </nav>
+    <div class="head-actions">
+      <a class="btn btn-quiet" href="register.html">Join the Register</a>
+      <button class="navtoggle" type="button" aria-expanded="false" aria-controls="sitenav" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -83,19 +102,19 @@
       <div class="field-grid">
         <div class="field wide">
           <label for="g-name">Full name <span class="req">*</span></label>
-          <input id="g-name" name="g-name" type="text" autocomplete="name" required>
+          <input id="g-name" name="name" type="text" autocomplete="name" required>
         </div>
         <div class="field wide">
           <label for="g-email">Email <span class="req">*</span></label>
-          <input id="g-email" name="g-email" type="email" autocomplete="email" required>
+          <input id="g-email" name="email" type="email" autocomplete="email" required>
         </div>
         <div class="field wide">
           <label for="g-phone">Phone number</label>
-          <input id="g-phone" name="g-phone" type="tel" autocomplete="tel" placeholder="+91">
+          <input id="g-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91">
         </div>
         <div class="field wide">
           <label for="g-stage">Where are you with the journey? <span class="req">*</span></label>
-          <select id="g-stage" name="g-stage" required>
+          <select id="g-stage" name="stage" required>
             <option value="">Select&hellip;</option>
             <option>Just starting to look into it</option>
             <option>Still studying</option>
@@ -141,16 +160,8 @@
     </div>
   </div>
 </footer>
+<script src="config.js"></script>
 <script src="site.js"></script>
-<script>
-  // Live behaviour: post the details, then click a hidden <a download>
-  // pointing at the PDF so the guide arrives without a second step.
-  document.getElementById('guide-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var b = this.querySelector('button[type=submit]');
-    b.textContent = 'Not connected yet — nothing was sent';
-    b.disabled = true;
-  });
-</script>
+<script src="forms.js"></script>
 </body>
 </html>
