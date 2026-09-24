@@ -64,7 +64,38 @@ module.exports = async function handler(req, res) {
     out.step3_googleAcceptsTheKey = 'yes';
   } catch (e) {
     out.step3_googleAcceptsTheKey = 'NO — ' + String(e.message).slice(0, 200);
-    out.verdict = 'Google rejected the credentials. Usually the private key was altered when pasted, or the Google Sheets API is not enabled on the project.';
+
+    // "Invalid JWT Signature" means Google found the account but the
+    // signature did not verify. Google publishes each service account's
+    // public certificates, so we can say for certain whether this private
+    // key belongs to this email.
+    try {
+      const mine = crypto.createPublicKey(SA_KEY).export({ type: 'spki', format: 'pem' });
+      const r = await fetch('https://www.googleapis.com/service_accounts/v1/metadata/x509/' +
+                            encodeURIComponent(SA_EMAIL));
+      if (r.ok) {
+        const certs = await r.json();
+        const ids = Object.keys(certs);
+        const matches = ids.some((id) => {
+          try {
+            return crypto.createPublicKey(certs[id]).export({ type: 'spki', format: 'pem' }) === mine;
+          } catch (err) { return false; }
+        });
+        out.step3a_keyBelongsToThisAccount = matches ? 'yes' : 'NO';
+        out.step3b_keysGoogleHoldsForThisAccount = ids.length;
+        out.verdict = matches
+          ? 'The key does belong to this account, so the signature failure is something else — check the server clock or try a freshly downloaded key.'
+          : 'MISMATCH. This private key was not issued to ' + SA_EMAIL + '. The two settings have come from different JSON files, or this key has been deleted in Google. Fix: create a new JSON key for that service account, then re-paste BOTH GOOGLE_SERVICE_ACCOUNT_EMAIL and GOOGLE_PRIVATE_KEY from that one file, and redeploy.';
+      } else if (r.status === 404) {
+        out.step3a_keyBelongsToThisAccount = 'cannot check — Google has no record of ' + SA_EMAIL;
+        out.verdict = 'That service account email does not exist. Re-copy client_email from the JSON key file.';
+      } else {
+        out.verdict = 'Google rejected the credentials. Re-download the JSON key and re-paste both values from it.';
+      }
+    } catch (inner) {
+      out.step3a_keyBelongsToThisAccount = 'cannot check — the private key will not parse: ' + String(inner.message).slice(0, 120);
+      out.verdict = 'The private key value is damaged. Re-paste it from the JSON file, keeping it exactly as it appears.';
+    }
     return res.status(200).json(out);
   }
 
