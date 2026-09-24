@@ -80,7 +80,7 @@ heading, silently.
 | `qualification` … `employer` | The professional profile. |
 | `stage` `english` `scores` `nmc` `timeframe` | Readiness. `scores` is text — requirements are assessed per component, and a single overall figure hides the one that failed. |
 | `setting` `locations` | Preferences. Not binding, a filter hint. |
-| `consent` `consent_updates` | `consent` false never reaches the sheet; the function rejects it. |
+| `consent` `consentPrivacy` | `consent` false never reaches the sheet; the function rejects it. `consentPrivacy` records agreement to the privacy notice. |
 | `consentWording` | The exact words shown at submission. Evidence, not decoration — if the wording changes, old rows keep what they were actually shown. |
 | `status` | The only column staff change daily. Defaults to `New`. |
 | `utm_*` `referrer` `page` | Where they came from. This is how you learn which post produced which nurse. |
@@ -110,6 +110,11 @@ Add a `lastContacted` column by hand at the end when you start working the
 list — the function ignores columns it does not know about.
 
 ---
+
+> **If your Sheet already exists:** the Register now captures agreement to the
+> privacy notice rather than a marketing opt-in. Rename the one header cell
+> `consent_updates` to **`consentPrivacy`** on the Register tab. It is the same
+> column in the same position, so nothing else moves and existing rows stay put.
 
 ## Step 2 — Service account
 

@@ -30,7 +30,7 @@ const TABS = {
     tab: 'Register',
     columns: ['submittedAt','name','email','whatsapp','state','qualification','institution',
               'gradyear','homereg','experience','speciality','employer','stage','english',
-              'scores','nmc','timeframe','setting','locations','consent','consent_updates',
+              'scores','nmc','timeframe','setting','locations','consent','consentPrivacy',
               'consentWording','status','utm_source','utm_medium','utm_campaign','referrer','page']
   },
   guide: {

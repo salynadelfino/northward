@@ -140,7 +140,14 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
 .site-nav a[aria-current="page"]{color:var(--pine);font-weight:600}
 .site-nav .btn{padding:9px 18px;font-size:15px}
 @media(max-width:800px){
-  .navtoggle{display:flex}
+  .navtoggle{display:flex;width:40px;height:40px}
+  /* The wordmark is two words and must never wrap. Everything else in the
+     bar gives way to it. */
+  .site-head .wrap{gap:12px}
+  .logo{font-size:1.12rem;gap:8px;white-space:nowrap}
+  .logo svg{width:22px;height:22px}
+  .head-actions{gap:8px}
+  .head-actions .btn{padding:9px 15px;font-size:13.5px;white-space:nowrap;border-radius:7px}
   /* The nav becomes a panel; the Register button stays in the bar, so the
      primary action never hides behind a menu. */
   .site-nav{
@@ -154,9 +161,26 @@ h3{font-size:1.18rem;letter-spacing:-.016em}
   .site-nav a:not(.btn):last-of-type{border-bottom:none}
   .site-nav a:not(.btn)::after{display:none}
 }
-@media(max-width:400px){
-  .head-actions .btn{padding:8px 12px;font-size:13.5px}
-  .logo{font-size:1.06rem}
+/* Below this the full label crowds the wordmark, so the button says
+   "Register" instead — same target size, no shrinking type. */
+.lbl-short{display:none}
+@media(max-width:430px){
+  .lbl-full{display:none}
+  .lbl-short{display:inline}
+  .site-head .wrap{gap:10px}
+  .logo{font-size:1.05rem;gap:7px}
+  .logo svg{width:21px;height:21px}
+  .head-actions{gap:7px}
+  .head-actions .btn{padding:9px 16px;font-size:13.5px}
+}
+/* Very small screens (old iPhone SE and similar) — tighten the gutter
+   rather than shrink the wordmark any further. */
+@media(max-width:340px){
+  .site-head .wrap{gap:8px;padding-inline:15px}
+  .logo{font-size:1rem;gap:6px}
+  .logo svg{width:19px;height:19px}
+  .head-actions .btn{padding:8px 12px;font-size:13px}
+  .navtoggle{width:36px;height:36px}
 }
 
 /* ---------- hero ----------------------------------------- */
@@ -547,11 +571,6 @@ html.leaving body{opacity:0;transition:opacity .22s ease}
   .site-nav a:not(.btn)::after{transition:none}
 }
 
-/* the wordmark is longer now — keep the header on one line on small phones */
-@media(max-width:480px){
-  .logo{font-size:1.14rem;gap:8px}
-  .site-nav .btn{padding:8px 14px;font-size:14px}
-}
 
 /* ---------- guide: book mockup --------------------------- */
 /* The face is the real cover artwork at its own A4 proportions, so nothing
@@ -655,6 +674,11 @@ html.leaving body{opacity:0;transition:opacity .22s ease}
 .formdone h3{font-size:1.5rem;margin-bottom:14px}
 .formdone p{color:var(--ink-2);font-size:16.5px;max-width:58ch}
 .formdone .btn{margin-top:8px}
+.formdone .btn + .btn{margin-left:10px}
+@media(max-width:520px){
+  .formdone .btn{display:block;width:100%;margin-left:0}
+  .formdone .btn + .btn{margin-top:10px;margin-left:0}
+}
 .previewline{
   margin-top:20px;padding-top:16px;border-top:1px solid var(--rule);
   font-size:14px;color:var(--ink-3);

@@ -120,22 +120,33 @@
         return opts.done(form, { preview: true, silent: true });
       }
 
-      // Start the download here, still inside the click that caused it —
-      // browsers allow a user-gesture download far more readily than one
-      // fired after an await, and the file must never depend on our logging.
-      if (opts.deliver) opts.deliver();
-
       var btn = form.querySelector('button[type=submit]');
       var label = btn ? btn.textContent : '';
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
-      var sent = send(opts.endpoint(), payload(form, opts.source));
+      var data = payload(form, opts.source);
+
+      // Confirmation first, then the file. If the browser decides to navigate
+      // to the PDF rather than save it, the reader has already seen the
+      // panel — on a phone that was the difference between a confirmation
+      // and being dumped into a PDF viewer.
+      var shown = null;
+      if (opts.panelFirst) shown = opts.done(form, { pending: true });
+      if (opts.deliver) opts.deliver();
+
+      var sent = send(opts.endpoint(), data);
 
       if (opts.deliverAlways) {
-        // The guide is already on its way. A logging failure is ours, not
-        // the reader's, so show the panel either way and note it quietly.
-        sent.then(function (res) { opts.done(form, res); })
-            .catch(function () { opts.done(form, { preview: false, unsaved: true }); });
+        // The panel is already up. A logging failure is ours, not the
+        // reader's, so only add a quiet note if something went wrong.
+        sent
+          .then(function (res) {
+            if (res.preview) note(shown, 'Preview mode: no submission endpoint is live here, so nothing was sent or stored.');
+          })
+          .catch(function () {
+            note(shown, 'We couldn\u2019t save your details just then. The guide is still yours \u2014 email ' +
+                        '<a href="mailto:hello@northwardcare.com">hello@northwardcare.com</a> if you\u2019d like to hear when we publish a new one.');
+          });
         return;
       }
 
@@ -156,6 +167,14 @@
     });
   }
 
+  function note(panelEl, html) {
+    if (!panelEl) return;
+    var p = document.createElement('p');
+    p.className = 'previewline';
+    p.innerHTML = html;
+    panelEl.appendChild(p);
+  }
+
   function panel(form, title, body) {
     var d = document.createElement('div');
     d.className = 'formdone';
@@ -163,35 +182,65 @@
     d.innerHTML = '<h3>' + title + '</h3>' + body;
     form.replaceWith(d);
     d.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    return d;
+  }
+
+  /* Forces a save rather than a preview. A plain <a download> is ignored by
+     some mobile browsers, which navigate to the PDF instead — taking the
+     reader away from the page before the confirmation can even render.
+     Fetching it and handing over a blob typed as a generic file makes the
+     browser save it, on phones as well as desktops. */
+  function downloadGuide() {
+    var file = CFG.guideFile;
+    if (!file) return Promise.resolve(false);
+    var name = file.split('/').pop();
+    return fetch(file)
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.blob();
+      })
+      .then(function (blob) {
+        var url = URL.createObjectURL(new Blob([blob], { type: 'application/octet-stream' }));
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+        return true;
+      })
+      .catch(function () { return false; });   // the panel carries a manual link
   }
 
   /* ---- the guide ------------------------------------------------------- */
   wire(document.getElementById('guide-form'), {
     source: 'guide',
     deliverAlways: true,
+    panelFirst: true,
     endpoint: function () { return CFG.endpoint; },
-    deliver: function () {
-      var file = CFG.guideFile;
-      if (!file) return;
-      var a = document.createElement('a');
-      a.href = file;
-      a.setAttribute('download', '');
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    },
+    deliver: downloadGuide,
     done: function (form, res) {
       var file = CFG.guideFile;
-      panel(form, 'Your guide is on its way.',
-        '<p>The download should have started. If it hasn&rsquo;t, open it here &mdash; you can save it from your browser.</p>' +
-        '<p><a class="btn btn-primary" href="' + file + '" target="_blank" rel="noopener">Open the guide</a></p>' +
+      var p = panel(form, 'Your guide is on its way.',
+        '<p>The download should start on its own. If it doesn&rsquo;t, use the button below &mdash; on a phone it saves to your Files or Downloads.</p>' +
+        '<p><button type="button" class="btn btn-primary" data-download>Download the guide</button>' +
+        '<a class="btn btn-quiet" href="' + file + '" target="_blank" rel="noopener">Open in a new tab</a></p>' +
         '<p>Reading it will tell you how the journey works. It won&rsquo;t tell you when a role that suits you comes up &mdash; that&rsquo;s what the Register is for.</p>' +
-        '<p><a class="arrowlink" href="register.html">Join the Register <span class="ar">&rarr;</span></a></p>' +
-        (res.unsaved
-          ? '<p class="previewline">We couldn&rsquo;t save your details just then. The guide is still yours &mdash; email <a href="mailto:hello@northwardcare.com">hello@northwardcare.com</a> if you&rsquo;d like to hear when we publish a new one.</p>'
-          : res.preview
-          ? '<p class="previewline">Preview mode: no submission endpoint is live here, so nothing was sent or stored.</p>'
-          : ''));
+        '<p><a class="arrowlink" href="register.html">Join the Register <span class="ar">&rarr;</span></a></p>');
+
+      var btn = p.querySelector('[data-download]');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          btn.disabled = true;
+          btn.textContent = 'Downloading…';
+          downloadGuide().then(function (ok) {
+            btn.disabled = false;
+            btn.textContent = ok ? 'Download again' : 'Download the guide';
+          });
+        });
+      }
+      return p;
     }
   });
 
