@@ -525,42 +525,33 @@ html.leaving body{opacity:0;transition:opacity .22s ease}
 }
 
 /* ---------- guide: book mockup --------------------------- */
-/* Swap in real cover art by adding <img> inside .book — it fills the face
-   and covers the type below. Everything here is the brand system. */
+/* The face is the real cover artwork at its own A4 proportions, so nothing
+   gets cropped. Spine and page edge are drawn over it. */
 .bookshot{perspective:1500px;display:flex;justify-content:center;padding-block:8px}
 .book{
-  position:relative;width:min(304px,80%);aspect-ratio:1/1.33;
-  border-radius:3px 8px 8px 3px;overflow:hidden;
-  background:linear-gradient(152deg,#0E5F50 0%,var(--jade) 46%,#0A3B33 100%);
+  position:relative;width:min(310px,82%);aspect-ratio:1242/1756;
+  border-radius:3px 9px 9px 3px;overflow:hidden;background:var(--pine);
   transform:rotateY(-16deg) rotateX(3deg);
-  box-shadow:24px 32px 64px -30px rgba(6,36,31,.62), 3px 3px 0 rgba(6,36,31,.06);
+  box-shadow:24px 34px 66px -30px rgba(6,36,31,.62), 3px 3px 0 rgba(6,36,31,.06);
   transition:transform .55s cubic-bezier(.22,.61,.36,1), box-shadow .55s ease;
-  display:flex;flex-direction:column;justify-content:space-between;
-  padding:30px 26px 26px;color:#fff;
 }
-.bookshot:hover .book{transform:rotateY(-8deg) rotateX(2deg) translateY(-7px);box-shadow:26px 38px 72px -30px rgba(6,36,31,.7),3px 3px 0 rgba(6,36,31,.06)}
-.book img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bookshot:hover .book{
+  transform:rotateY(-8deg) rotateX(2deg) translateY(-7px);
+  box-shadow:26px 40px 74px -30px rgba(6,36,31,.7), 3px 3px 0 rgba(6,36,31,.06);
+}
+.book img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .book::before{ /* the spine */
-  content:"";position:absolute;left:0;top:0;bottom:0;width:16px;z-index:2;
-  background:linear-gradient(90deg,rgba(0,0,0,.34) 0%,rgba(0,0,0,.10) 42%,rgba(255,255,255,.14) 62%,rgba(255,255,255,0) 100%);
+  content:"";position:absolute;left:0;top:0;bottom:0;width:17px;z-index:2;
+  background:linear-gradient(90deg,rgba(0,0,0,.40) 0%,rgba(0,0,0,.14) 44%,rgba(255,255,255,.13) 64%,rgba(255,255,255,0) 100%);
 }
 .book::after{ /* page edge */
-  content:"";position:absolute;right:0;top:3px;bottom:3px;width:5px;z-index:2;
-  background:linear-gradient(90deg,rgba(255,255,255,.28),rgba(255,255,255,.62));
+  content:"";position:absolute;right:0;top:4px;bottom:4px;width:5px;z-index:2;
+  background:linear-gradient(90deg,rgba(255,255,255,.26),rgba(255,255,255,.64));
+  border-radius:0 3px 3px 0;
 }
-.book .kick{
-  font-family:var(--head);font-size:10.5px;font-weight:600;letter-spacing:.17em;
-  text-transform:uppercase;color:rgba(255,255,255,.72);margin:0;position:relative;z-index:1;
-}
-.book .ttl{
-  font-family:var(--head);font-weight:700;font-size:clamp(1.25rem,2.5vw,1.6rem);
-  line-height:1.14;letter-spacing:-.03em;margin:14px 0 0;position:relative;z-index:1;
-}
-.book .by{margin:0;font-size:13.5px;color:rgba(255,255,255,.76);position:relative;z-index:1}
-.book .rule{height:2px;width:44px;background:var(--mint);margin:16px 0 0;position:relative;z-index:1}
 @media (prefers-reduced-motion:reduce){
   .book{transform:none;transition:none}
-  .bookshot:hover .book{transform:none}
+  .bookshot:hover .book{transform:none;box-shadow:24px 34px 66px -30px rgba(6,36,31,.62)}
 }
 
 /* ---------- wider text column where a list needs room ---- */

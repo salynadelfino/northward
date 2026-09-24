@@ -147,6 +147,14 @@ over*. Before this form goes live it needs, at minimum, one line under the
 button naming the controller and linking the privacy notice. This is on the
 blocking list in `03-site-structure.md`.
 
+## The guide's title comes from the cover
+
+The printed cover reads **The Indian Nurse's Guide to Working in the UK**, with
+the subtitle *"Your step-by-step roadmap from India to starting your nursing
+career in the UK."* The site follows the artwork, not the other way round — if
+the cover is ever redesigned, the page title, the hero, the meta description
+and the image alt text all move with it.
+
 ## Placeholders in the build
 
 Search the square brackets. All must be resolved before launch.

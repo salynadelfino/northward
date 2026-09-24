@@ -101,6 +101,11 @@ email comes from `hello@northwardcare.com`.
   green on the page (a `--jade-lift` → `--jade` gradient), and on the dark band
   it inverts to solid mist so the filled/outlined hierarchy reads the same
   everywhere.
+- **The guide cover** is real artwork at `site/assets/guide-cover.jpg`,
+  resized to 640px wide and 36KB (from 1242px and 288KB) because the audience
+  is mobile-first on Indian networks. `.book` is set to the cover's own A4
+  ratio so nothing is cropped, with the spine and page edge drawn over it. A
+  redesigned cover is a straight file swap as long as it stays A4.
 - **Hero:** no photography. A faint field of contour arcs — latitude lines
   curving north — sits behind centred text at 13% opacity over a soft jade
   wash, drifting over 52 seconds. Decorative, `aria-hidden`, the only ornament
